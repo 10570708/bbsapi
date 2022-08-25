@@ -1,0 +1,24 @@
+spring:
+  output:
+    ansi:
+      enabled: ALWAYS
+  datasource:
+    url: jdbc:h2:file:C:\Users\pdboo\dbs\api\db
+    username: sa
+    password: sa
+  jpa:
+    hibernate:
+      ddl-auto: update
+
+logging:
+  level:
+    org:
+      hibernate:
+        SQL: DEBUG'
+        type:
+          descriptor:
+            sql:
+              BaseBinder: TRACE
+
+
+
