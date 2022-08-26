@@ -20,5 +20,7 @@ logging:
             sql:
               BaseBinder: TRACE
 
-
-
+#auth0:
+#  audience: BigBookSwap
+#  issuer: https://localhost:8080/api/v1
+#

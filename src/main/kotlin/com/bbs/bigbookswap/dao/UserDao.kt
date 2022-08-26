@@ -8,4 +8,7 @@ import org.springframework.stereotype.Repository
 interface UserDao: JpaRepository<BBSUser, Long> {
 
     fun findByAvatar(avatar: String): List<BBSUser>
+
+    fun findByUsername(username: String): BBSUser?
+
 }

@@ -11,12 +11,15 @@ import org.springframework.data.domain.Page
 import org.springframework.data.domain.Pageable
 import org.springframework.data.jpa.repository.Query
 import org.springframework.data.repository.findByIdOrNull
+import org.springframework.http.ResponseEntity
 import org.springframework.stereotype.Service
 
 @Service
 class UserManagementServiceImpl(private val userDao: UserDao,
                                private val addUserRequstTransformer: AddUserRequstTransformer)
     : UserManagmentService {
+
+    override fun findByUsername(username: String): BBSUser? = this.userDao.findByUsername(username)
 
     override fun findById(id: Long): UserResponse? = this.findUserbyId(id).toUserResponse()
 

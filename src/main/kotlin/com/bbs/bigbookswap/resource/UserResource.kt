@@ -2,11 +2,15 @@ package com.bbs.bigbookswap.resource
 
 import com.bbs.bigbookswap.dto.AddUserRequest
 import com.bbs.bigbookswap.dto.UpdateUserRequest
+import com.bbs.bigbookswap.dto.UserLoginRequest
 import com.bbs.bigbookswap.dto.UserResponse
 import org.springframework.data.domain.Page
 import org.springframework.http.ResponseEntity
+import javax.servlet.http.HttpServletResponse
 
 interface UserResource {
+
+    fun login(userLoginRequest: UserLoginRequest, response: HttpServletResponse): ResponseEntity<Any>
     fun findById(id: Long): ResponseEntity<UserResponse>
     fun findByAvatar(avatar: String): ResponseEntity<List<UserResponse>>
     fun findAll(pageable: org.springframework.data.domain.Pageable): ResponseEntity<Page<UserResponse>>

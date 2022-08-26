@@ -1,16 +1,22 @@
 package com.bbs.bigbookswap.resource
 
-import com.bbs.bigbookswap.dto.AddUserRequest
-import com.bbs.bigbookswap.dto.UpdateUserRequest
-import com.bbs.bigbookswap.dto.UserResponse
+import com.bbs.bigbookswap.dto.*
 import com.bbs.bigbookswap.resource.UserResourceImpl.Companion.BASE_USER_URL
 import com.bbs.bigbookswap.service.UserManagmentService
+import io.jsonwebtoken.Jwts
+import io.jsonwebtoken.SignatureAlgorithm
+import io.jsonwebtoken.impl.crypto.MacProvider
 import org.springframework.data.domain.Page
 import org.springframework.data.domain.Pageable
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.*
 import java.net.URI
+import java.security.Key
+import java.util.*
+import javax.servlet.http.Cookie
+import javax.servlet.http.HttpServletResponse
+
 
 @RestController
 @RequestMapping(value= [BASE_USER_URL])
@@ -35,6 +41,62 @@ class UserResourceImpl(private val userManagmentService: UserManagmentService) :
             .created(URI.create(BASE_USER_URL.plus("/${userResponse.id}")))
             .body(userResponse)
     }
+
+    @PostMapping("login")
+    override fun login(@RequestBody userLoginRequest: UserLoginRequest, response: HttpServletResponse): ResponseEntity<Any> {
+        val user = this.userManagmentService.findByUsername( userLoginRequest.username )
+            ?: return ResponseEntity.badRequest().body(Message("User not Found"))
+
+        if (!user.comparePasswords(userLoginRequest.password, user.password))
+            return ResponseEntity.badRequest().body(Message("Invalid password"))
+
+        val issuer = user.id.toString()
+
+
+        val jwt = Jwts.builder()
+            .setIssuer(issuer)
+            .setExpiration(Date(System.currentTimeMillis() + 60 * 24 * 1000)) // 1 day
+            .signWith(SignatureAlgorithm.HS512  , "secret").compact()
+
+        val cookie = Cookie("jwt",jwt)
+        cookie.isHttpOnly = true
+
+        response.addCookie(cookie)
+
+        return ResponseEntity.ok(user)
+
+    }
+
+    @GetMapping("getme")
+    fun user(@CookieValue("jwt") jwt:String?): ResponseEntity<Any>{
+
+        print(jwt)
+        print("That wS IT ")
+        try {
+            if (jwt == null) {
+                return ResponseEntity.status(401).body(Message("notauthenticated"))
+            }
+
+            val body = Jwts.parser().setSigningKey("secret").parseClaimsJws(jwt).body
+
+
+
+            return ResponseEntity.ok(this.userManagmentService.findById(body.issuer.toLong()))
+        } catch (e: Exception)
+        {
+            return ResponseEntity.status(401).body(Message("notauthenticated"))
+        }
+    }
+
+    @PostMapping("logout")
+    fun logout(response: HttpServletResponse): ResponseEntity<Any>{
+
+        var cookie = Cookie("jwt", "")
+        cookie.maxAge = 0
+        response.addCookie(cookie)
+        return ResponseEntity.ok(Message("Cookie Removed"))
+    }
+
 
 
     @PutMapping("/{id}")
@@ -75,6 +137,6 @@ class UserResourceImpl(private val userManagmentService: UserManagmentService) :
     }
 
     companion object {
-        const val BASE_USER_URL: String = "/api/v1/user"
+        const val BASE_USER_URL: String = "/api/v1/user/"
     }
 }

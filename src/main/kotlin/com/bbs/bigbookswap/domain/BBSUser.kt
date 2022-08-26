@@ -4,13 +4,20 @@ import java.util.Date
 import javax.persistence.*
 
 @Entity
-data class BBSUser (
+data class BBSUser
+    (
     @Id
     @SequenceGenerator(name= USER_SEQUENCE, sequenceName = USER_SEQUENCE, initialValue = 1, allocationSize = 1)
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator=USER_SEQUENCE)
     val id:Long,
-    val username:String = "lDal",
-    val password:String = "pass",
+
+    @Column(unique = true, nullable = false)
+    val username:String = "",
+
+    @Column
+    val password:String = "",
+
+
     var lastLogin: Date = Date(),
     var avatar: String = "dog",
     var numBooks: Long = 0,
@@ -20,6 +27,10 @@ data class BBSUser (
     companion object {
 
         const val USER_SEQUENCE: String = "USER_SEQUENCE"
+    }
+
+    fun comparePasswords(passwordIn: String, password: String): Boolean{
+        return password == passwordIn
     }
 
 }

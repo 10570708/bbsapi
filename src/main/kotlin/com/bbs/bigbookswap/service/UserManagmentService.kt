@@ -1,5 +1,6 @@
 package com.bbs.bigbookswap.service
 
+import com.bbs.bigbookswap.domain.BBSUser
 import com.bbs.bigbookswap.dto.AddUserRequest
 import com.bbs.bigbookswap.dto.UpdateUserRequest
 import com.bbs.bigbookswap.dto.UserResponse
@@ -7,6 +8,7 @@ import org.springframework.data.domain.Page
 import org.springframework.data.domain.Pageable
 
 interface UserManagmentService {
+    fun findByUsername(username: String): BBSUser?
     fun findById(id: Long): UserResponse?
     fun findAll(pageable: Pageable): Page<UserResponse>
     fun save(addUserRequest: AddUserRequest): UserResponse
