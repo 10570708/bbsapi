@@ -2,6 +2,7 @@ package com.bbs.bigbookswap.resource
 
 import com.bbs.bigbookswap.dto.*
 import com.bbs.bigbookswap.resource.UserResourceImpl.Companion.BASE_USER_URL
+import com.bbs.bigbookswap.service.AuthValidation
 import com.bbs.bigbookswap.service.UserManagmentService
 import io.jsonwebtoken.Jwts
 import io.jsonwebtoken.SignatureAlgorithm
@@ -17,10 +18,10 @@ import java.util.*
 import javax.servlet.http.Cookie
 import javax.servlet.http.HttpServletResponse
 
-
+@CrossOrigin(origins = ["http://localhost:4200"])
 @RestController
 @RequestMapping(value= [BASE_USER_URL])
-class UserResourceImpl(private val userManagmentService: UserManagmentService) : UserResource {
+class UserResourceImpl(private val userManagmentService: UserManagmentService, private val authManager: AuthValidation) : UserResource {
 
     @GetMapping("/{id}")
     override fun findById(@PathVariable id: Long): ResponseEntity<UserResponse> {
@@ -42,8 +43,11 @@ class UserResourceImpl(private val userManagmentService: UserManagmentService) :
             .body(userResponse)
     }
 
+    @CrossOrigin(origins = ["http://localhost:4200"])
     @PostMapping("login")
     override fun login(@RequestBody userLoginRequest: UserLoginRequest, response: HttpServletResponse): ResponseEntity<Any> {
+        print("Getting here ")
+
         val user = this.userManagmentService.findByUsername( userLoginRequest.username )
             ?: return ResponseEntity.badRequest().body(Message("User not Found"))
 
@@ -55,8 +59,14 @@ class UserResourceImpl(private val userManagmentService: UserManagmentService) :
 
         val jwt = Jwts.builder()
             .setIssuer(issuer)
-            .setExpiration(Date(System.currentTimeMillis() + 60 * 24 * 1000)) // 1 day
+            .setExpiration(Date(System.currentTimeMillis() + 86400000)) // 1 day
             .signWith(SignatureAlgorithm.HS512  , "secret").compact()
+
+        println("expiration date " + System.currentTimeMillis() + 60 * 24 * 1000)
+        println("String date is " + Date(System.currentTimeMillis()).toString())
+        println("get date " + Date(System.currentTimeMillis() + 86400000))
+
+        println("String date is " + Date(System.currentTimeMillis() + 60 * 24 * 1000).toString())
 
         val cookie = Cookie("jwt",jwt)
         cookie.isHttpOnly = true
@@ -67,32 +77,53 @@ class UserResourceImpl(private val userManagmentService: UserManagmentService) :
 
     }
 
+    @CrossOrigin(origins = ["http://localhost:4200"])
     @GetMapping("getme")
     fun user(@CookieValue("jwt") jwt:String?): ResponseEntity<Any>{
 
-        print(jwt)
-        print("That wS IT ")
+        println("Checked the cookie in getme and got ....")
+        println(authManager.validateCookie(jwt))
+
+        println(jwt)
+        println("Now doing it in actual getme ...")
         try {
             if (jwt == null) {
                 return ResponseEntity.status(401).body(Message("notauthenticated"))
             }
 
+            println("About to parse jwt I think !! ")
+
             val body = Jwts.parser().setSigningKey("secret").parseClaimsJws(jwt).body
 
+            println("Gotbody" + body)
 
+
+            var tmp = this.userManagmentService.findById(body.issuer.toLong())
+
+            println("Got user " + tmp)
 
             return ResponseEntity.ok(this.userManagmentService.findById(body.issuer.toLong()))
         } catch (e: Exception)
         {
+            println("Got an excvption " + e.message)
             return ResponseEntity.status(401).body(Message("notauthenticated"))
         }
     }
-
+    @CrossOrigin(origins = ["http://localhost:4200"])
     @PostMapping("logout")
     fun logout(response: HttpServletResponse): ResponseEntity<Any>{
 
-        var cookie = Cookie("jwt", "")
+        val issuer = "none"
+
+
+        val jwt = Jwts.builder()
+            .setIssuer(issuer)
+            .setExpiration(Date(System.currentTimeMillis() - 86400000)) // 1 day
+            .signWith(SignatureAlgorithm.HS512  , "secret").compact()
+
+        val cookie = Cookie("jwt",jwt)
         cookie.maxAge = 0
+        println("Removing cookie")
         response.addCookie(cookie)
         return ResponseEntity.ok(Message("Cookie Removed"))
     }

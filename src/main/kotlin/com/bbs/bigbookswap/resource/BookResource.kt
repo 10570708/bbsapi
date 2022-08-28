@@ -8,6 +8,7 @@ import com.bbs.bigbookswap.dto.UpdateUserRequest
 import org.springframework.data.domain.Page
 import org.springframework.data.domain.Pageable
 import org.springframework.http.ResponseEntity
+import org.springframework.web.bind.annotation.CookieValue
 
 interface BookResource {
     fun findById(id: Long): ResponseEntity<BookResponse>
@@ -24,7 +25,7 @@ interface BookResource {
 
 
     //fun findAllByStatus(avatar: String): ResponseEntity<List<BookResponse>>
-    fun findAll(pageable: org.springframework.data.domain.Pageable): ResponseEntity<Page<BookResponse>>
+    fun findAll(jwt:String?, pageable: Pageable): ResponseEntity<Page<BookResponse>>
     fun save(addBookRequest: AddBookRequest): ResponseEntity<BookResponse>
     fun updateBook(updateBookRequest: AddBookRequest): ResponseEntity<BookResponse>
     fun delete(id:Long): ResponseEntity<String>

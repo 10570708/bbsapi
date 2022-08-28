@@ -2,6 +2,7 @@ package com.bbs.bigbookswap.resource
 
 import com.bbs.bigbookswap.dto.*
 import com.bbs.bigbookswap.resource.BookResourceImpl.Companion.BASE_BOOK_URL
+import com.bbs.bigbookswap.service.AuthValidation
 import com.bbs.bigbookswap.service.BookManagementService
 import org.springframework.data.domain.Page
 import org.springframework.data.domain.Pageable
@@ -13,7 +14,7 @@ import java.net.URI
 @CrossOrigin(origins = ["http://localhost:8080"])
 @RestController
 @RequestMapping(value= [BASE_BOOK_URL])
-class BookResourceImpl(private val bookManagementService: BookManagementService) : BookResource {
+class BookResourceImpl(private val bookManagementService: BookManagementService, private val authManager: AuthValidation) : BookResource {
 
     @CrossOrigin(origins = ["http://localhost:4200"])
     @GetMapping("/{id}")
@@ -24,8 +25,10 @@ class BookResourceImpl(private val bookManagementService: BookManagementService)
 
     @CrossOrigin(origins = ["http://localhost:4200"])
     @GetMapping("/all")
-    override fun findAll(pageable: Pageable): ResponseEntity<Page<BookResponse>>
+    override fun findAll(@CookieValue("jwt") jwt:String?, pageable: Pageable): ResponseEntity<Page<BookResponse>>
     {
+        println("Chcked the cookie and got ")
+        println(authManager.validateCookie(jwt))
         return ResponseEntity.ok(this.bookManagementService.findAll(pageable))
     }
 

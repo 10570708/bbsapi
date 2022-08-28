@@ -13,5 +13,7 @@ class WbConfig: WebMvcConfigurer {
         registry.addMapping("/**")
             .allowedOrigins("http://localhost:4200")
             .allowCredentials(true)
+            .allowedHeaders("*")
+            .allowedMethods("*")
     }
 }
