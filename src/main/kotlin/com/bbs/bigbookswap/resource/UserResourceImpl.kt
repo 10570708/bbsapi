@@ -1,5 +1,6 @@
 package com.bbs.bigbookswap.resource
 
+import com.bbs.bigbookswap.domain.BBSUser
 import com.bbs.bigbookswap.dto.*
 import com.bbs.bigbookswap.resource.UserResourceImpl.Companion.BASE_USER_URL
 import com.bbs.bigbookswap.service.AuthValidation
@@ -24,7 +25,7 @@ import javax.servlet.http.HttpServletResponse
 class UserResourceImpl(private val userManagmentService: UserManagmentService, private val authManager: AuthValidation) : UserResource {
 
     @GetMapping("/{id}")
-    override fun findById(@PathVariable id: Long): ResponseEntity<UserResponse> {
+    override fun findById(@PathVariable id: Long): ResponseEntity<BBSUser> {
         val userResponse = this.userManagmentService.findById(id)
         return ResponseEntity.status(HttpStatus.OK).body(userResponse)
     }
@@ -138,6 +139,11 @@ class UserResourceImpl(private val userManagmentService: UserManagmentService, p
     @PutMapping("/bookcount/{id}")
     override fun updateBookCount(@PathVariable id:Long): ResponseEntity<UserResponse> {
         return ResponseEntity.ok(this.userManagmentService.updateBookCount(id))
+    }
+
+    @PutMapping("/bookcount/reduce/{id}")
+    override fun reduceBookCount(@PathVariable id:Long): ResponseEntity<UserResponse> {
+        return ResponseEntity.ok(this.userManagmentService.reduceBookCount(id))
     }
 
     @PutMapping("/swapcount/{id}")

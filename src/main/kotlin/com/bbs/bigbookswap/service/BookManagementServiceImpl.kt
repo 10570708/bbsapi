@@ -32,12 +32,27 @@ class BookManagementServiceImpl(private val bookDao: BookDao,
 
     //override fun findAllByAuthorContainsOrTitleContainsAndStatusIs(searchString1: String,searchString2: String,pageable: Pageable) : Page<BookResponse> = this.bookDao.findAllByAuthorIgnoreCaseContainsOrTitleIgnoreCaseContains(searchString1,searchString2,pageable)
 
-    override fun findAllByOwnerConditionOption(owner: Long, condition: String, option: String,pageable: Pageable) : Page<BookResponse> = this.bookDao.findAllByOwnerIdAndConditionIgnoreCaseAndOptionIgnoreCase(owner,condition,option,pageable)
+    override fun findAllByConditionOptionOwnerId(condition: String, option: String,owner: Long, pageable: Pageable) : Page<BookResponse> = this.bookDao.findAllByConditionIgnoreCaseAndOptionIgnoreCaseAndOwnerId(condition,option,owner,pageable)
+
+    override fun findAllByConditionOptionOwnerIdNot(condition: String, option: String,owner: Long, pageable: Pageable) : Page<BookResponse> = this.bookDao.findAllByConditionIgnoreCaseAndOptionIgnoreCaseAndOwnerIdNot(condition,option,owner,pageable)
 
     override fun findAllBySearchConditionOption(search: String, condition: String, option: String,pageable: Pageable) : Page<BookResponse> = this.bookDao.findAllByAuthorIgnoreCaseContainsOrTitleIgnoreCaseContainsAndConditionIgnoreCaseAndOptionIgnoreCase(search, search,condition,option,pageable)
 
     override fun findAllByOwnerId(owner: Long, pageable: Pageable): Page<BookResponse> = this.bookDao.findAllByOwnerId(owner,pageable)
     override fun findAllByOwnerIdNot(owner: Long, pageable: Pageable): Page<BookResponse> = this.bookDao.findByOwnerIdNot(owner,pageable)
+    override fun findAllBySearchOwnerId(search: String, owner: Long, pageable: Pageable): Page<BookResponse> = this.bookDao.findAllByAuthorIgnoreCaseContainsOrTitleIgnoreCaseContainsAndOwnerId(search, search, owner,pageable)
+    override fun findAllBySearchOwnerIdNot(search:String,owner: Long, pageable: Pageable): Page<BookResponse> = this.bookDao.findAllByAuthorIgnoreCaseContainsOrTitleIgnoreCaseContainsAndOwnerIdNot(search,search, owner,pageable)
+
+    override fun findAllBySearchConditionOptionOwnerId(search: String, condition: String, option: String, ownerId: Long, pageable:Pageable): Page<BookResponse> = this.bookDao.findAllByAuthorIgnoreCaseContainsOrTitleIgnoreCaseContainsAndConditionIgnoreCaseAndOptionIgnoreCaseAndOwnerId(search, search, condition, option, ownerId, pageable)
+    override fun findAllBySearchConditionOptionOwnerIdNot(search: String, condition: String, option: String, ownerId: Long, pageable:Pageable): Page<BookResponse> = this.bookDao.findAllByAuthorIgnoreCaseContainsOrTitleIgnoreCaseContainsAndConditionIgnoreCaseAndOptionIgnoreCaseAndOwnerIdNot(search, search, condition, option, ownerId,pageable)
+    override fun findAllBySearchConditionOwnerId(search: String, condition: String, ownerId: Long, pageable:Pageable): Page<BookResponse> = this.bookDao.findAllByAuthorIgnoreCaseContainsOrTitleIgnoreCaseContainsAndConditionIgnoreCaseAndOwnerId(search, search, condition,  ownerId, pageable)
+    override fun findAllBySearchConditionOwnerIdNot(search: String, condition: String, ownerId: Long, pageable:Pageable): Page<BookResponse> = this.bookDao.findAllByAuthorIgnoreCaseContainsOrTitleIgnoreCaseContainsAndConditionIgnoreCaseAndOwnerIdNot(search, search, condition,  ownerId,pageable)
+    override fun findAllByConditionOwnerId(condition: String, ownerId: Long, pageable:Pageable): Page<BookResponse> = this.bookDao.findAllByConditionIgnoreCaseAndOwnerId(condition, ownerId, pageable)
+    override fun findAllByConditionOwnerIdNot(condition: String, ownerId: Long, pageable:Pageable): Page<BookResponse> = this.bookDao.findAllByConditionIgnoreCaseAndOwnerIdNot(condition,  ownerId,pageable)
+    override fun findAllByOptionOwnerId(option: String, ownerId: Long, pageable:Pageable): Page<BookResponse> = this.bookDao.findAllByOptionIgnoreCaseAndOwnerId(option, ownerId, pageable)
+    override fun findAllByOptionOwnerIdNot(option: String, ownerId: Long, pageable:Pageable): Page<BookResponse> = this.bookDao.findAllByOptionIgnoreCaseAndOwnerIdNot(option,  ownerId,pageable)
+    override fun findAllBySearchOptionOwnerId(search: String, option: String, ownerId: Long, pageable:Pageable): Page<BookResponse> = this.bookDao.findAllByAuthorIgnoreCaseContainsOrTitleIgnoreCaseContainsAndOptionIgnoreCaseAndOwnerId(search, search, option,  ownerId, pageable)
+    override fun findAllBySearchOptionOwnerIdNot(search: String, option: String, ownerId: Long, pageable:Pageable): Page<BookResponse> = this.bookDao.findAllByAuthorIgnoreCaseContainsOrTitleIgnoreCaseContainsAndOptionIgnoreCaseAndOwnerIdNot(search, search, option,  ownerId,pageable)
 
     override fun findAllBySearchCondition(search: String, condition: String,pageable: Pageable) : Page<BookResponse> = this.bookDao.findAllByAuthorIgnoreCaseContainsOrTitleIgnoreCaseContainsAndConditionIgnoreCase(search, search,condition,pageable)
     override fun findAllBySearchOption(search: String, option: String,pageable: Pageable) : Page<BookResponse> = this.bookDao.findAllByAuthorIgnoreCaseContainsOrTitleIgnoreCaseContainsAndOptionIgnoreCase(search, search,option,pageable)

@@ -15,8 +15,21 @@ interface BookResource {
     fun findAllByAuthorContainsOrTitleContains(searchAuthor: String,pageable: org.springframework.data.domain.Pageable): ResponseEntity<Page<BookResponse>>
     fun findAllByOwnerId(ownerId: Long, pageable: Pageable): ResponseEntity<Page<BookResponse>>
     fun findAllByOwnerIdNot(ownerId: Long, pageable: Pageable): ResponseEntity<Page<BookResponse>>
+    fun findAllBySearchOwnerId(search: String,ownerId: Long, pageable: Pageable): ResponseEntity<Page<BookResponse>>
+    fun findAllBySearchOwnerIdNot(search: String,ownerId: Long, pageable: Pageable): ResponseEntity<Page<BookResponse>>
+    fun findAllBySearchConditionOptionOwnerId(search: String, condition: String, option: String, ownerId: Long, pageable: Pageable): ResponseEntity<Page<BookResponse>>
+    fun findAllBySearchConditionOptionOwnerIdNot(search: String, condition: String, option: String, ownerId: Long, pageable: Pageable): ResponseEntity<Page<BookResponse>>
+    fun findAllBySearchConditionOwnerId(search: String, condition: String, ownerId: Long, pageable: Pageable): ResponseEntity<Page<BookResponse>>
+    fun findAllBySearchConditionOwnerIdNot(search: String, condition: String, ownerId: Long, pageable: Pageable): ResponseEntity<Page<BookResponse>>
+    fun findAllByConditionOwnerId(condition: String, ownerId: Long, pageable: Pageable): ResponseEntity<Page<BookResponse>>
+    fun findAllByConditionOwnerIdNot(condition: String, ownerId: Long, pageable: Pageable): ResponseEntity<Page<BookResponse>>
+    fun findAllByOptionOwnerId(option: String, ownerId: Long, pageable: Pageable): ResponseEntity<Page<BookResponse>>
+    fun findAllByOptionOwnerIdNot(option: String, ownerId: Long, pageable: Pageable): ResponseEntity<Page<BookResponse>>
+    fun findAllBySearchOptionOwnerId(search: String, option: String, ownerId: Long, pageable: Pageable): ResponseEntity<Page<BookResponse>>
+    fun findAllBySearchOptionOwnerIdNot(search: String, option: String, ownerId: Long, pageable: Pageable): ResponseEntity<Page<BookResponse>>
+    fun findAllByConditionOptionOwnerId(condition: String, option: String, owner: Long, pageable: org.springframework.data.domain.Pageable): ResponseEntity<Page<BookResponse>>
+    fun findAllByConditionOptionOwnerIdNot(condition: String, option: String, owner: Long, pageable: org.springframework.data.domain.Pageable): ResponseEntity<Page<BookResponse>>
 
-    fun findAllByOwnerConditionOption(owner: Long, condition: String, option: String,pageable: org.springframework.data.domain.Pageable): ResponseEntity<Page<BookResponse>>
     fun findAllBySearchConditionOption(search: String, condition: String, option: String,pageable: org.springframework.data.domain.Pageable): ResponseEntity<Page<BookResponse>>
 
     fun findAllByConditionOption(condition: String, option: String,pageable: org.springframework.data.domain.Pageable): ResponseEntity<Page<BookResponse>>

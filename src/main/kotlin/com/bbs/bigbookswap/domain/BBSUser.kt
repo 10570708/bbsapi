@@ -30,7 +30,7 @@ data class BBSUser
     }
 
     fun comparePasswords(passwordIn: String, password: String): Boolean{
-        return password == passwordIn
+        return password ==  passwordIn
     }
 
 }

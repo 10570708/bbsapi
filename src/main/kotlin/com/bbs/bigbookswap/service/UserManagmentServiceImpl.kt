@@ -21,7 +21,7 @@ class UserManagementServiceImpl(private val userDao: UserDao,
 
     override fun findByUsername(username: String): BBSUser? = this.userDao.findByUsername(username)
 
-    override fun findById(id: Long): UserResponse? = this.findUserbyId(id).toUserResponse()
+    override fun findById(id: Long): BBSUser? = this.findUserbyId(id)
 
     override fun findByAvatar(avatar: String): List<UserResponse> = this.userDao.findByAvatar(avatar).map(BBSUser::toUserResponse)  ?: emptyList()
 
@@ -49,6 +49,14 @@ class UserManagementServiceImpl(private val userDao: UserDao,
 
         return this.saveOrUpdate(user.apply {
             this.numBooks++
+        })
+    }
+
+    override fun reduceBookCount(id: Long): UserResponse{
+        val user = this.findUserbyId(id) ?: throw IllegalStateException("${id} not found I'm afraid ! ")
+
+        return this.saveOrUpdate(user.apply {
+            this.numBooks--
         })
     }
     override fun updateSwapCount(id: Long): UserResponse{
