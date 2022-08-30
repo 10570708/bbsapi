@@ -38,4 +38,6 @@ interface BookManagementService {
     fun findAllByOption(option: String, pageable: Pageable): Page<BookResponse>
     fun findAllByCondition(condition: String, pageable: Pageable): Page<BookResponse>
 
+    fun findAllByOwnerIdAndStatus(ownerId: Long, status: String): List<BookResponse>
+
 }

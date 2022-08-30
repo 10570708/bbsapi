@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.CookieValue
 
 interface BookResource {
     fun findById(id: Long): ResponseEntity<BookResponse>
+    fun findAllByOwnerIdAndStatus(ownerId: Long): ResponseEntity<List<BookResponse>>
     fun findAllByAuthorContainsOrTitleContains(searchAuthor: String,pageable: org.springframework.data.domain.Pageable): ResponseEntity<Page<BookResponse>>
     fun findAllByOwnerId(ownerId: Long, pageable: Pageable): ResponseEntity<Page<BookResponse>>
     fun findAllByOwnerIdNot(ownerId: Long, pageable: Pageable): ResponseEntity<Page<BookResponse>>

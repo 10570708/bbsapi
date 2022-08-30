@@ -13,6 +13,9 @@ interface BookDao: JpaRepository<Book, Long> {
 //    @Query(value = "SELECT  FROM BOOKS  WHERE author like %:author% ORDER BY author")
 //    @Query("SELECT e FROM BOOKS e WHERE e.author =:id ")
     fun findAllByAuthorIgnoreCaseContainsOrTitleIgnoreCaseContains(author: String, title: String,pageable: Pageable): Page<BookResponse>
+    fun findAllByOwnerIdAndStatusIgnoreCase(ownerId: Long, status: String): List<BookResponse>
+
+
     fun findAllByOwnerId(id: Long, pageable: Pageable): Page<BookResponse>
     fun findByOwnerIdNot(id: Long, pageable: Pageable): Page<BookResponse>
     fun findAllByAuthorIgnoreCaseContainsOrTitleIgnoreCaseContainsAndOwnerId(author: String, title: String, id: Long, pageable: Pageable): Page<BookResponse>
@@ -42,6 +45,7 @@ interface BookDao: JpaRepository<Book, Long> {
     fun findAllByStatus(status: String): List<Book>
     fun findAllByOptionIgnoreCase(option: String, pageable: Pageable): Page<BookResponse>
     fun findAllByAuthorContainsOrTitleContainsAndStatusIs(author:String, title:String,status:String)
+
 
 
 }

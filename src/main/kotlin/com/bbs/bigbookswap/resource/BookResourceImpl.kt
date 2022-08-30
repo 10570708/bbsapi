@@ -62,6 +62,13 @@ class BookResourceImpl(private val bookManagementService: BookManagementService,
     }
 
     @CrossOrigin(origins = ["http://localhost:4200"])
+    @GetMapping("/available/owner/{id}")
+    override fun findAllByOwnerIdAndStatus(@PathVariable id: Long): ResponseEntity<List<BookResponse>> {
+
+       return ResponseEntity.ok(this.bookManagementService.findAllByOwnerIdAndStatus(id, "available"))
+
+    }
+    @CrossOrigin(origins = ["http://localhost:4200"])
     @GetMapping("/owner/{id}/{match}")
     fun findAllByOwner(@PathVariable id: Long, @PathVariable match: Boolean, pageable: Pageable): ResponseEntity<Page<BookResponse>> {
 
@@ -80,7 +87,7 @@ class BookResourceImpl(private val bookManagementService: BookManagementService,
     }
 
     @CrossOrigin(origins = ["http://localhost:4200"])
-    @GetMapping("/sonsearch/{search}/{id}/{match}")
+    @GetMapping("/searchowner/{search}/{id}/{match}")
     fun findAllBySearchOwner(@PathVariable search: String, @PathVariable id: Long, @PathVariable match: Boolean, pageable: Pageable): ResponseEntity<Page<BookResponse>> {
 
         return if (match)
@@ -100,7 +107,7 @@ class BookResourceImpl(private val bookManagementService: BookManagementService,
 
 
     @CrossOrigin(origins = ["http://localhost:4200"])
-    @GetMapping("/scoosearch/{search}/{condition}/{option}/{id}/{match}")
+    @GetMapping("/allfilters/{search}/{condition}/{option}/{id}/{match}")
     fun findAllBySearchConditionOptionOwner(@PathVariable search: String,@PathVariable condition: String,@PathVariable option: String ,@PathVariable id: Long, @PathVariable match: Boolean, pageable: Pageable): ResponseEntity<Page<BookResponse>> {
 
         return if (match)
@@ -134,6 +141,8 @@ class BookResourceImpl(private val bookManagementService: BookManagementService,
     override fun findAllBySearchConditionOwnerId(search: String, condition: String, ownerId: Long, pageable: Pageable): ResponseEntity<Page<BookResponse>> {
         return ResponseEntity.ok(this.bookManagementService.findAllBySearchConditionOwnerId(search, condition, ownerId, pageable))
     }
+
+
 
     override fun findAllBySearchConditionOwnerIdNot(search: String, condition: String, ownerId: Long, pageable: Pageable): ResponseEntity<Page<BookResponse>> {
         return ResponseEntity.ok(this.bookManagementService.findAllBySearchConditionOwnerIdNot(search, condition, ownerId, pageable))
@@ -252,25 +261,25 @@ class BookResourceImpl(private val bookManagementService: BookManagementService,
 
 
 @CrossOrigin(origins = ["http://localhost:4200"])
-    @GetMapping("/scosearch/{search}/{condition}/{option}")
+    @GetMapping("/searchconditionoption/{search}/{condition}/{option}")
     override fun findAllBySearchConditionOption(@PathVariable search: String, @PathVariable condition: String, @PathVariable option: String, pageable: Pageable): ResponseEntity<Page<BookResponse>>{
         return ResponseEntity.ok(this.bookManagementService.findAllBySearchConditionOption(search,condition,option,pageable))
     }
 
     @CrossOrigin(origins = ["http://localhost:4200"])
-    @GetMapping("/scsearch/{search}/{condition}")
+    @GetMapping("/searchcondition/{search}/{condition}")
     override fun findAllBySearchCondition(@PathVariable search: String, @PathVariable condition: String, pageable: Pageable): ResponseEntity<Page<BookResponse>>{
         return ResponseEntity.ok(this.bookManagementService.findAllBySearchCondition(search,condition,pageable))
     }
 
     @CrossOrigin(origins = ["http://localhost:4200"])
-    @GetMapping("/sosearch/{search}/{option}")
+    @GetMapping("/searchoption/{search}/{option}")
     override fun findAllBySearchOption(@PathVariable search: String, @PathVariable option: String, pageable: Pageable): ResponseEntity<Page<BookResponse>>{
         return ResponseEntity.ok(this.bookManagementService.findAllBySearchOption(search,option,pageable))
     }
 
     @CrossOrigin(origins = ["http://localhost:4200"])
-    @GetMapping("/cosearch/{condition}/{option}")
+    @GetMapping("/conditionoption/{condition}/{option}")
     override fun findAllByConditionOption(@PathVariable condition: String, @PathVariable option: String, pageable: Pageable): ResponseEntity<Page<BookResponse>>{
         return ResponseEntity.ok(this.bookManagementService.findAllByConditionOption(condition,option,pageable))
     }

@@ -65,6 +65,8 @@ class BookManagementServiceImpl(private val bookDao: BookDao,
 
     override fun findAllByCondition(condition: String, pageable: Pageable): Page<BookResponse> = this.bookDao.findAllByConditionIgnoreCase(condition, pageable)
 
+    override fun findAllByOwnerIdAndStatus(ownerId: Long, status: String) = this.bookDao.findAllByOwnerIdAndStatusIgnoreCase(ownerId,status)
+
 
     override fun updateBook(addBookRequest: AddBookRequest): BookResponse {
         val book = this.findBookbyId(addBookRequest.id) ?: throw IllegalStateException("${addBookRequest.id} not found")
