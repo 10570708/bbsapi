@@ -13,6 +13,7 @@ class SwapRequestTransformer: Transformer<SwapRequest, Swap> {
     override fun transform(source: SwapRequest): Swap {
         return Swap(
             id = source.id,
+            type = source.type,
             offerOwnerId = source.offerMember?.ownerId ?: 0,
             offerBookId = source.offerMember?.bookId ?: 0,
             offerTitle = source.offerMember?.bookTitle ?: "",

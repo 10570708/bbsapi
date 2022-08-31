@@ -27,8 +27,6 @@ class BookResourceImpl(private val bookManagementService: BookManagementService,
     @GetMapping("/all")
     override fun findAll(@CookieValue("jwt") jwt:String?, pageable: Pageable): ResponseEntity<Page<BookResponse>>
     {
-        println("Chcked the cookie and got ")
-        println(authManager.validateCookie(jwt))
         return ResponseEntity.ok(this.bookManagementService.findAll(pageable))
     }
 

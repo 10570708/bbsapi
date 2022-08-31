@@ -47,7 +47,6 @@ class UserResourceImpl(private val userManagmentService: UserManagmentService, p
     @CrossOrigin(origins = ["http://localhost:4200"])
     @PostMapping("login")
     override fun login(@RequestBody userLoginRequest: UserLoginRequest, response: HttpServletResponse): ResponseEntity<Any> {
-        print("Getting here ")
 
         val user = this.userManagmentService.findByUsername( userLoginRequest.username )
             ?: return ResponseEntity.badRequest().body(Message("User not Found"))
@@ -63,13 +62,7 @@ class UserResourceImpl(private val userManagmentService: UserManagmentService, p
             .setExpiration(Date(System.currentTimeMillis() + 86400000)) // 1 day
             .signWith(SignatureAlgorithm.HS512  , "secret").compact()
 
-        println("expiration date " + System.currentTimeMillis() + 60 * 24 * 1000)
-        println("String date is " + Date(System.currentTimeMillis()).toString())
-        println("get date " + Date(System.currentTimeMillis() + 86400000))
-
-        println("String date is " + Date(System.currentTimeMillis() + 60 * 24 * 1000).toString())
-
-        val cookie = Cookie("jwt",jwt)
+         val cookie = Cookie("jwt",jwt)
         cookie.isHttpOnly = true
 
         response.addCookie(cookie)
@@ -82,31 +75,23 @@ class UserResourceImpl(private val userManagmentService: UserManagmentService, p
     @GetMapping("getme")
     fun user(@CookieValue("jwt") jwt:String?): ResponseEntity<Any>{
 
-        println("Checked the cookie in getme and got ....")
-        println(authManager.validateCookie(jwt))
 
-        println(jwt)
-        println("Now doing it in actual getme ...")
         try {
             if (jwt == null) {
                 return ResponseEntity.status(401).body(Message("notauthenticated"))
             }
 
-            println("About to parse jwt I think !! ")
 
             val body = Jwts.parser().setSigningKey("secret").parseClaimsJws(jwt).body
 
-            println("Gotbody" + body)
 
 
             var tmp = this.userManagmentService.findById(body.issuer.toLong())
 
-            println("Got user " + tmp)
 
             return ResponseEntity.ok(this.userManagmentService.findById(body.issuer.toLong()))
         } catch (e: Exception)
         {
-            println("Got an excvption " + e.message)
             return ResponseEntity.status(401).body(Message("notauthenticated"))
         }
     }
@@ -124,7 +109,6 @@ class UserResourceImpl(private val userManagmentService: UserManagmentService, p
 
         val cookie = Cookie("jwt",jwt)
         cookie.maxAge = 0
-        println("Removing cookie")
         response.addCookie(cookie)
         return ResponseEntity.ok(Message("Cookie Removed"))
     }

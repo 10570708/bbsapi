@@ -8,6 +8,7 @@ import java.util.*
 fun Swap?.toSwapResponse(): SwapResponse {
     return SwapResponse(
         id = this?.id ?: 0,
+        type = this?.type ?: "",
         offerMember =
             SwapMember(
                 this?.offerOwnerId?: 0,
@@ -25,6 +26,6 @@ fun Swap?.toSwapResponse(): SwapResponse {
                 this?.recipientCover ?: "",
             ),
         createdDate = this?.createdDate ?: Date(),
-        swapDate = null,
+        swapDate = Date(),
         status = this?.status ?: "")
 }

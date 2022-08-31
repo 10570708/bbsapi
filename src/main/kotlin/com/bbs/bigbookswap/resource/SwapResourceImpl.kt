@@ -21,11 +21,40 @@ class SwapResourceImpl(private val swapManagementService: SwapManagementService)
     }
 
     @CrossOrigin(origins = ["http://localhost:4200"])
+    @PutMapping
+    override fun update(@RequestBody updateSwapRequest: SwapRequest): ResponseEntity<SwapResponse> {
+        val swapResponse = this.swapManagementService.update( updateSwapRequest )
+        return ResponseEntity
+            .created(URI.create(SwapResourceImpl.BASE_SWAP_URL.plus("/${swapResponse.id}")))
+            .body(swapResponse)
+    }
+
+    @CrossOrigin(origins = ["http://localhost:4200"])
+    @PutMapping("/complete")
+    override fun complete(@RequestBody updateSwapRequest: SwapRequest): ResponseEntity<SwapResponse> {
+        val swapResponse = this.swapManagementService.complete( updateSwapRequest )
+        return ResponseEntity
+            .created(URI.create(SwapResourceImpl.BASE_SWAP_URL.plus("/${swapResponse.id}")))
+            .body(swapResponse)
+    }
+
+    @CrossOrigin(origins = ["http://localhost:4200"])
     @GetMapping("/requests/{id}")
     override fun findMyRequests(@PathVariable id: Long): ResponseEntity<List<SwapResponse>> {
         return ResponseEntity.ok(this.swapManagementService.findMyRequests(id))
     }
 
+
+    @GetMapping("/pending/{id}")
+    override fun findMyPendingById(@PathVariable id: Long): ResponseEntity<List<SwapResponse>> {
+        return ResponseEntity.ok(this.swapManagementService.findMyPendingById(id))
+    }
+
+    @CrossOrigin(origins = ["http://localhost:4200"])
+    @GetMapping("/complete/{id}")
+    override fun findMyCompleteById(@PathVariable id: Long): ResponseEntity<List<SwapResponse>> {
+        return ResponseEntity.ok(this.swapManagementService.findMyCompleteById(id))
+    }
 
     @CrossOrigin(origins = ["http://localhost:4200"])
     @GetMapping("/offers/{id}")

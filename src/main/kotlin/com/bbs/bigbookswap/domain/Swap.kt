@@ -10,6 +10,7 @@ data class Swap
     @SequenceGenerator(name= SWAP_SEQUENCE, sequenceName = SWAP_SEQUENCE, initialValue = 1, allocationSize = 1)
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator=SWAP_SEQUENCE)
     val id:Long,
+    var type: String,
 
     var offerOwnerId: Long,
     var offerBookId: Long,

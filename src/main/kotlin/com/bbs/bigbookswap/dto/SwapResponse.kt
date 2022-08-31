@@ -4,6 +4,7 @@ import java.util.*
 
 data class SwapResponse (
     var id: Long,
+    var type: String,
     var offerMember: SwapMember,
     var recipientMember :SwapMember,
     var createdDate: Date,

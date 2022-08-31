@@ -52,6 +52,7 @@ class UserManagementServiceImpl(private val userDao: UserDao,
         })
     }
 
+
     override fun reduceBookCount(id: Long): UserResponse{
         val user = this.findUserbyId(id) ?: throw IllegalStateException("${id} not found I'm afraid ! ")
 

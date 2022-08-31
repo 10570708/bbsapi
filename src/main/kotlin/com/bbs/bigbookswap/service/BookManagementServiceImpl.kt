@@ -71,7 +71,7 @@ class BookManagementServiceImpl(private val bookDao: BookDao,
     override fun updateBook(addBookRequest: AddBookRequest): BookResponse {
         val book = this.findBookbyId(addBookRequest.id) ?: throw IllegalStateException("${addBookRequest.id} not found")
         return this.saveOrUpdate(book.apply {
-            this.author = addBookRequest.author
+            this.status = addBookRequest.status
         })
 
     }

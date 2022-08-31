@@ -13,7 +13,16 @@ import org.springframework.data.domain.Pageable
 interface SwapManagementService {
    fun save(addBookRequest: SwapRequest): SwapResponse
 
+   fun update(updateBookRequest: SwapRequest): SwapResponse
+
+   fun complete(updateBookRequest: SwapRequest): SwapResponse
+
+
    fun findMyRequests(id: Long): List<SwapResponse>
+
+   fun findMyPendingById(id: Long): List<SwapResponse>
+   fun findMyCompleteById(id: Long): List<SwapResponse>
+
 
    fun findMyOffers(id: Long): List<SwapResponse>
 
