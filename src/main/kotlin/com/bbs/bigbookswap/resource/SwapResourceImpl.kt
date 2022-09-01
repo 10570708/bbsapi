@@ -1,6 +1,7 @@
 package com.bbs.bigbookswap.resource
 
-import com.bbs.bigbookswap.dto.*
+import com.bbs.bigbookswap.dto.SwapRequest
+import com.bbs.bigbookswap.dto.SwapResponse
 import com.bbs.bigbookswap.service.SwapManagementService
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.*
@@ -8,33 +9,33 @@ import java.net.URI
 
 @CrossOrigin(origins = ["http://localhost:8080"])
 @RestController
-@RequestMapping(value= [SwapResourceImpl.BASE_SWAP_URL])
-class SwapResourceImpl(private val swapManagementService: SwapManagementService) : SwapResource{
+@RequestMapping(value = [SwapResourceImpl.BASE_SWAP_URL])
+class SwapResourceImpl(private val swapManagementService: SwapManagementService) : SwapResource {
 
     @CrossOrigin(origins = ["http://localhost:4200"])
     @PostMapping
     override fun save(@RequestBody addSwapRequest: SwapRequest): ResponseEntity<SwapResponse> {
-        val swapResponse = this.swapManagementService.save( addSwapRequest )
+        val swapResponse = this.swapManagementService.save(addSwapRequest)
         return ResponseEntity
-            .created(URI.create(SwapResourceImpl.BASE_SWAP_URL.plus("/${swapResponse.id}")))
+            .created(URI.create(BASE_SWAP_URL.plus("/${swapResponse.id}")))
             .body(swapResponse)
     }
 
     @CrossOrigin(origins = ["http://localhost:4200"])
     @PutMapping
     override fun update(@RequestBody updateSwapRequest: SwapRequest): ResponseEntity<SwapResponse> {
-        val swapResponse = this.swapManagementService.update( updateSwapRequest )
+        val swapResponse = this.swapManagementService.update(updateSwapRequest)
         return ResponseEntity
-            .created(URI.create(SwapResourceImpl.BASE_SWAP_URL.plus("/${swapResponse.id}")))
+            .created(URI.create(BASE_SWAP_URL.plus("/${swapResponse.id}")))
             .body(swapResponse)
     }
 
     @CrossOrigin(origins = ["http://localhost:4200"])
     @PutMapping("/complete")
     override fun complete(@RequestBody updateSwapRequest: SwapRequest): ResponseEntity<SwapResponse> {
-        val swapResponse = this.swapManagementService.complete( updateSwapRequest )
+        val swapResponse = this.swapManagementService.complete(updateSwapRequest)
         return ResponseEntity
-            .created(URI.create(SwapResourceImpl.BASE_SWAP_URL.plus("/${swapResponse.id}")))
+            .created(URI.create(BASE_SWAP_URL.plus("/${swapResponse.id}")))
             .body(swapResponse)
     }
 

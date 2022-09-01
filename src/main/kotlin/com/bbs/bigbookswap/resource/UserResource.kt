@@ -17,10 +17,10 @@ interface UserResource {
     fun findAll(pageable: org.springframework.data.domain.Pageable): ResponseEntity<Page<UserResponse>>
     fun save(addUserRequest: AddUserRequest): ResponseEntity<UserResponse>
     fun update(updateUserRequest: UpdateUserRequest): ResponseEntity<UserResponse>
-    fun delete(id:Long): ResponseEntity<Unit>
-    fun updateBookCount(id:Long): ResponseEntity<UserResponse>
-    fun reduceBookCount(id:Long): ResponseEntity<UserResponse>
-    fun updateSwapCount(id:Long): ResponseEntity<UserResponse>
-    fun updateDonateCount(id:Long): ResponseEntity<UserResponse>
-    fun updateAvatar(id:Long, avatar: String): ResponseEntity<UserResponse>
+    fun delete(id: Long): ResponseEntity<Unit>
+    fun updateBookCount(id: Long): ResponseEntity<UserResponse>
+    fun reduceBookCount(id: Long): ResponseEntity<UserResponse>
+    fun updateSwapCount(id: Long): ResponseEntity<UserResponse>
+    fun updateDonateCount(id: Long): ResponseEntity<UserResponse>
+    fun updateAvatar(id: Long, avatar: String): ResponseEntity<UserResponse>
 }

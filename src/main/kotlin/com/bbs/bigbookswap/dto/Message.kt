@@ -1,4 +1,3 @@
 package com.bbs.bigbookswap.dto
 
-class Message(public val message: String) {
-}
+class Message(val message: String)

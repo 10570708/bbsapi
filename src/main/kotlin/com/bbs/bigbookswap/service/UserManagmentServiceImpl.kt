@@ -9,32 +9,34 @@ import com.bbs.bigbookswap.transformer.AddUserRequstTransformer
 import com.bbs.bigbookswap.transformer.toUserResponse
 import org.springframework.data.domain.Page
 import org.springframework.data.domain.Pageable
-import org.springframework.data.jpa.repository.Query
 import org.springframework.data.repository.findByIdOrNull
-import org.springframework.http.ResponseEntity
 import org.springframework.stereotype.Service
 
 @Service
-class UserManagementServiceImpl(private val userDao: UserDao,
-                               private val addUserRequstTransformer: AddUserRequstTransformer)
-    : UserManagmentService {
+class UserManagementServiceImpl(
+    private val userDao: UserDao,
+    private val addUserRequstTransformer: AddUserRequstTransformer
+) : UserManagmentService {
 
     override fun findByUsername(username: String): BBSUser? = this.userDao.findByUsername(username)
 
     override fun findById(id: Long): BBSUser? = this.findUserbyId(id)
 
-    override fun findByAvatar(avatar: String): List<UserResponse> = this.userDao.findByAvatar(avatar).map(BBSUser::toUserResponse)  ?: emptyList()
+    override fun findByAvatar(avatar: String): List<UserResponse> =
+        this.userDao.findByAvatar(avatar).map(BBSUser::toUserResponse)
 
-    override fun findAll(pageable: Pageable): Page<UserResponse> = this.userDao.findAll(pageable).map(BBSUser::toUserResponse)
+    override fun findAll(pageable: Pageable): Page<UserResponse> =
+        this.userDao.findAll(pageable).map(BBSUser::toUserResponse)
 
     override fun save(addUserRequest: AddUserRequest): UserResponse {
         return this.saveOrUpdate(
             addUserRequstTransformer.transform(addUserRequest)
         )
-            }
+    }
 
     override fun update(updateUserRequest: UpdateUserRequest): UserResponse {
-        val user = this.findUserbyId(updateUserRequest.id) ?: throw IllegalStateException("${updateUserRequest.id} not found")
+        val user =
+            this.findUserbyId(updateUserRequest.id) ?: throw IllegalStateException("${updateUserRequest.id} not found")
         return this.saveOrUpdate(user.apply {
             this.numBooks = updateUserRequest.numBooks ?: this.numBooks
             this.numSwaps = updateUserRequest.numSwaps ?: this.numSwaps
@@ -44,7 +46,7 @@ class UserManagementServiceImpl(private val userDao: UserDao,
 
     }
 
-    override fun updateBookCount(id: Long): UserResponse{
+    override fun updateBookCount(id: Long): UserResponse {
         val user = this.findUserbyId(id) ?: throw IllegalStateException("${id} not found I'm afraid ! ")
 
         return this.saveOrUpdate(user.apply {
@@ -53,14 +55,15 @@ class UserManagementServiceImpl(private val userDao: UserDao,
     }
 
 
-    override fun reduceBookCount(id: Long): UserResponse{
+    override fun reduceBookCount(id: Long): UserResponse {
         val user = this.findUserbyId(id) ?: throw IllegalStateException("${id} not found I'm afraid ! ")
 
         return this.saveOrUpdate(user.apply {
             this.numBooks--
         })
     }
-    override fun updateSwapCount(id: Long): UserResponse{
+
+    override fun updateSwapCount(id: Long): UserResponse {
         val user = this.findUserbyId(id) ?: throw IllegalStateException("${id} not found I'm afraid ! ")
 
         return this.saveOrUpdate(user.apply {
@@ -68,7 +71,7 @@ class UserManagementServiceImpl(private val userDao: UserDao,
         })
     }
 
-    override fun updateDonateCount(id: Long): UserResponse{
+    override fun updateDonateCount(id: Long): UserResponse {
         val user = this.findUserbyId(id) ?: throw IllegalStateException("${id} not found I'm afraid ! ")
 
         return this.saveOrUpdate(user.apply {
@@ -76,7 +79,7 @@ class UserManagementServiceImpl(private val userDao: UserDao,
         })
     }
 
-    override fun updateAvatar(id: Long, avatar: String): UserResponse{
+    override fun updateAvatar(id: Long, avatar: String): UserResponse {
         val user = this.findUserbyId(id) ?: throw IllegalStateException("${id} not found I'm afraid ! ")
 
         return this.saveOrUpdate(user.apply {

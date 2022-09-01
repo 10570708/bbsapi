@@ -8,15 +8,15 @@ import org.springframework.web.bind.annotation.RestController
 
 @SpringBootApplication
 @RestController
-class BigbookswapApplication{
+class BigbookswapApplication {
 
-	@GetMapping
-	fun hi():BBSUser {
-		return BBSUser(username = "LisaDaly", id=2)
-	}
+    @GetMapping
+    fun hi(): BBSUser {
+        return BBSUser(username = "LisaDaly", id = 2)
+    }
 }
 
 fun main(args: Array<String>) {
-	runApplication<BigbookswapApplication>(*args)
+    runApplication<BigbookswapApplication>(*args)
 }
 

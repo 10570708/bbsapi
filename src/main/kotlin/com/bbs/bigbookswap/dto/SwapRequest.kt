@@ -1,7 +1,7 @@
 package com.bbs.bigbookswap.dto
 
 import com.fasterxml.jackson.annotation.JsonFormat
-import java.util.*
+import java.util.Date
 
 @JsonFormat(with = [JsonFormat.Feature.ACCEPT_SINGLE_VALUE_AS_ARRAY])
 data class SwapRequest (

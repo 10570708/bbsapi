@@ -1,28 +1,33 @@
 package com.bbs.bigbookswap.resource
 
 import com.bbs.bigbookswap.domain.BBSUser
-import com.bbs.bigbookswap.dto.*
+import com.bbs.bigbookswap.dto.Message
+import com.bbs.bigbookswap.dto.UpdateUserRequest
+import com.bbs.bigbookswap.dto.AddUserRequest
+import com.bbs.bigbookswap.dto.UserResponse
+import com.bbs.bigbookswap.dto.UserLoginRequest
 import com.bbs.bigbookswap.resource.UserResourceImpl.Companion.BASE_USER_URL
 import com.bbs.bigbookswap.service.AuthValidation
 import com.bbs.bigbookswap.service.UserManagmentService
 import io.jsonwebtoken.Jwts
 import io.jsonwebtoken.SignatureAlgorithm
-import io.jsonwebtoken.impl.crypto.MacProvider
 import org.springframework.data.domain.Page
 import org.springframework.data.domain.Pageable
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.*
 import java.net.URI
-import java.security.Key
-import java.util.*
+import java.util.Date
 import javax.servlet.http.Cookie
 import javax.servlet.http.HttpServletResponse
 
 @CrossOrigin(origins = ["http://localhost:4200"])
 @RestController
-@RequestMapping(value= [BASE_USER_URL])
-class UserResourceImpl(private val userManagmentService: UserManagmentService, private val authManager: AuthValidation) : UserResource {
+@RequestMapping(value = [BASE_USER_URL])
+class UserResourceImpl(
+    private val userManagmentService: UserManagmentService,
+    private val authManager: AuthValidation
+) : UserResource {
 
     @GetMapping("/{id}")
     override fun findById(@PathVariable id: Long): ResponseEntity<BBSUser> {
@@ -31,14 +36,13 @@ class UserResourceImpl(private val userManagmentService: UserManagmentService, p
     }
 
     @GetMapping("/all")
-    override fun findAll(pageable: Pageable): ResponseEntity<Page<UserResponse>>
-    {
+    override fun findAll(pageable: Pageable): ResponseEntity<Page<UserResponse>> {
         return ResponseEntity.ok(this.userManagmentService.findAll(pageable))
     }
 
     @PostMapping
     override fun save(@RequestBody addUserRequest: AddUserRequest): ResponseEntity<UserResponse> {
-        val userResponse = this.userManagmentService.save( addUserRequest )
+        val userResponse = this.userManagmentService.save(addUserRequest)
         return ResponseEntity
             .created(URI.create(BASE_USER_URL.plus("/${userResponse.id}")))
             .body(userResponse)
@@ -46,9 +50,12 @@ class UserResourceImpl(private val userManagmentService: UserManagmentService, p
 
     @CrossOrigin(origins = ["http://localhost:4200"])
     @PostMapping("login")
-    override fun login(@RequestBody userLoginRequest: UserLoginRequest, response: HttpServletResponse): ResponseEntity<Any> {
+    override fun login(
+        @RequestBody userLoginRequest: UserLoginRequest,
+        response: HttpServletResponse
+    ): ResponseEntity<Any> {
 
-        val user = this.userManagmentService.findByUsername( userLoginRequest.username )
+        val user = this.userManagmentService.findByUsername(userLoginRequest.username)
             ?: return ResponseEntity.badRequest().body(Message("User not Found"))
 
         if (!user.comparePasswords(userLoginRequest.password, user.password))
@@ -60,9 +67,9 @@ class UserResourceImpl(private val userManagmentService: UserManagmentService, p
         val jwt = Jwts.builder()
             .setIssuer(issuer)
             .setExpiration(Date(System.currentTimeMillis() + 86400000)) // 1 day
-            .signWith(SignatureAlgorithm.HS512  , "secret").compact()
+            .signWith(SignatureAlgorithm.HS512, "secret").compact()
 
-         val cookie = Cookie("jwt",jwt)
+        val cookie = Cookie("jwt", jwt)
         cookie.isHttpOnly = true
 
         response.addCookie(cookie)
@@ -73,46 +80,36 @@ class UserResourceImpl(private val userManagmentService: UserManagmentService, p
 
     @CrossOrigin(origins = ["http://localhost:4200"])
     @GetMapping("getme")
-    fun user(@CookieValue("jwt") jwt:String?): ResponseEntity<Any>{
-
-
+    fun user(@CookieValue("jwt") jwt: String?): ResponseEntity<Any> {
         try {
             if (jwt == null) {
                 return ResponseEntity.status(401).body(Message("notauthenticated"))
             }
 
-
             val body = Jwts.parser().setSigningKey("secret").parseClaimsJws(jwt).body
-
-
-
             var tmp = this.userManagmentService.findById(body.issuer.toLong())
 
-
             return ResponseEntity.ok(this.userManagmentService.findById(body.issuer.toLong()))
-        } catch (e: Exception)
-        {
+        } catch (e: Exception) {
             return ResponseEntity.status(401).body(Message("notauthenticated"))
         }
     }
+
     @CrossOrigin(origins = ["http://localhost:4200"])
     @PostMapping("logout")
-    fun logout(response: HttpServletResponse): ResponseEntity<Any>{
+    fun logout(response: HttpServletResponse): ResponseEntity<Any> {
 
         val issuer = "none"
-
-
         val jwt = Jwts.builder()
             .setIssuer(issuer)
             .setExpiration(Date(System.currentTimeMillis() - 86400000)) // 1 day
-            .signWith(SignatureAlgorithm.HS512  , "secret").compact()
+            .signWith(SignatureAlgorithm.HS512, "secret").compact()
 
-        val cookie = Cookie("jwt",jwt)
+        val cookie = Cookie("jwt", jwt)
         cookie.maxAge = 0
         response.addCookie(cookie)
         return ResponseEntity.ok(Message("Cookie Removed"))
     }
-
 
 
     @PutMapping("/{id}")
@@ -121,30 +118,31 @@ class UserResourceImpl(private val userManagmentService: UserManagmentService, p
     }
 
     @PutMapping("/bookcount/{id}")
-    override fun updateBookCount(@PathVariable id:Long): ResponseEntity<UserResponse> {
+    override fun updateBookCount(@PathVariable id: Long): ResponseEntity<UserResponse> {
         return ResponseEntity.ok(this.userManagmentService.updateBookCount(id))
     }
 
     @PutMapping("/bookcount/reduce/{id}")
-    override fun reduceBookCount(@PathVariable id:Long): ResponseEntity<UserResponse> {
+    override fun reduceBookCount(@PathVariable id: Long): ResponseEntity<UserResponse> {
         return ResponseEntity.ok(this.userManagmentService.reduceBookCount(id))
     }
 
     @PutMapping("/swapcount/{id}")
-    override fun updateSwapCount(@PathVariable id:Long): ResponseEntity<UserResponse> {
+    override fun updateSwapCount(@PathVariable id: Long): ResponseEntity<UserResponse> {
         return ResponseEntity.ok(this.userManagmentService.updateSwapCount(id))
     }
 
 
     @PutMapping("/donatecount/{id}")
-    override fun updateDonateCount(@PathVariable id:Long): ResponseEntity<UserResponse> {
+    override fun updateDonateCount(@PathVariable id: Long): ResponseEntity<UserResponse> {
         return ResponseEntity.ok(this.userManagmentService.updateDonateCount(id))
     }
 
     @PutMapping("/avatar/{id}/{avatar}")
-    override fun updateAvatar(@PathVariable id:Long, @PathVariable avatar: String): ResponseEntity<UserResponse> {
+    override fun updateAvatar(@PathVariable id: Long, @PathVariable avatar: String): ResponseEntity<UserResponse> {
         return ResponseEntity.ok(this.userManagmentService.updateAvatar(id, avatar))
     }
+
     @DeleteMapping("/{id}")
     override fun delete(@PathVariable id: Long): ResponseEntity<Unit> {
         this.userManagmentService.delete(id)

@@ -1,10 +1,12 @@
 package com.bbs.bigbookswap.dto
 
-import java.util.*
+import java.util.Date
 
-data class UserResponse (val id:Long = 1,
-                         var lastLogin: Date,
-                         var avatar: String,
-                         var numBooks: Long,
-                         var numSwaps: Long,
-                         var numDonations: Long)
+data class UserResponse(
+    val id: Long = 1,
+    var lastLogin: Date,
+    var avatar: String,
+    var numBooks: Long,
+    var numSwaps: Long,
+    var numDonations: Long
+)

@@ -4,11 +4,11 @@ import java.util.Date
 import javax.persistence.*
 
 @Entity
-data class Book (
+data class Book(
     @Id
-    @SequenceGenerator(name= BOOK_SEQUENCE, sequenceName = BOOK_SEQUENCE, initialValue = 1, allocationSize = 1)
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator=BOOK_SEQUENCE)
-    val id:Long,
+    @SequenceGenerator(name = BOOK_SEQUENCE, sequenceName = BOOK_SEQUENCE, initialValue = 1, allocationSize = 1)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = BOOK_SEQUENCE)
+    val id: Long,
     var ownerId: Long,
     var title: String,
     var author: String,
@@ -19,7 +19,8 @@ data class Book (
     var status: String,
     var condition: String,
     var isbn: Long,
-    var option: String) {
+    var option: String
+) {
 
     companion object {
 

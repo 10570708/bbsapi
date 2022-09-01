@@ -1,5 +1,4 @@
 package com.bbs.bigbookswap.dto
-
 data class SwapMember(
     var ownerId: Long,
     var bookId: Long,

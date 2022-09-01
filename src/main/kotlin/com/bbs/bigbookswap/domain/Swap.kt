@@ -1,15 +1,15 @@
 package com.bbs.bigbookswap.domain
 
-import java.util.Date
+import java.util.*
 import javax.persistence.*
 
 @Entity
 data class Swap
     (
     @Id
-    @SequenceGenerator(name= SWAP_SEQUENCE, sequenceName = SWAP_SEQUENCE, initialValue = 1, allocationSize = 1)
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator=SWAP_SEQUENCE)
-    val id:Long,
+    @SequenceGenerator(name = SWAP_SEQUENCE, sequenceName = SWAP_SEQUENCE, initialValue = 1, allocationSize = 1)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = SWAP_SEQUENCE)
+    val id: Long,
     var type: String,
 
     var offerOwnerId: Long,

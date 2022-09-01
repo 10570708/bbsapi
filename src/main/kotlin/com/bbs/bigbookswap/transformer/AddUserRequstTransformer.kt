@@ -5,7 +5,7 @@ import com.bbs.bigbookswap.dto.AddUserRequest
 import org.springframework.stereotype.Component
 
 @Component
-class AddUserRequstTransformer: Transformer<AddUserRequest, BBSUser> {
+class AddUserRequstTransformer : Transformer<AddUserRequest, BBSUser> {
 
     override fun transform(source: AddUserRequest): BBSUser {
         return BBSUser(

@@ -1,9 +1,7 @@
 package com.bbs.bigbookswap.transformer
 
-import com.bbs.bigbookswap.domain.BBSUser
 import com.bbs.bigbookswap.domain.Book
 import com.bbs.bigbookswap.dto.BookResponse
-import com.bbs.bigbookswap.dto.UserResponse
 import java.util.Date
 
 fun Book?.toBookResponse(): BookResponse {

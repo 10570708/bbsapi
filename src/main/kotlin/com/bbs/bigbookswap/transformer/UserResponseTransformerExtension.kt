@@ -4,7 +4,7 @@ import com.bbs.bigbookswap.domain.BBSUser
 import com.bbs.bigbookswap.dto.UserResponse
 import java.util.Date
 
-fun BBSUser?.toUserResponse(): UserResponse{
+fun BBSUser?.toUserResponse(): UserResponse {
     return UserResponse(
         id = this?.id ?: 0,
         lastLogin = this?.lastLogin ?: Date(),

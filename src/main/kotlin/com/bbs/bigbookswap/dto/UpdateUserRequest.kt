@@ -1,6 +1,6 @@
 package com.bbs.bigbookswap.dto
 
-import java.util.*
+import java.util.Date
 
 data class UpdateUserRequest (
     val id: Long,

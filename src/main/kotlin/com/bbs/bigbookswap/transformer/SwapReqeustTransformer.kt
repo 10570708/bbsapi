@@ -1,14 +1,12 @@
 package com.bbs.bigbookswap.transformer
 
-import com.bbs.bigbookswap.domain.Book
 import com.bbs.bigbookswap.domain.Swap
-import com.bbs.bigbookswap.dto.AddBookRequest
 import com.bbs.bigbookswap.dto.SwapRequest
 import org.springframework.stereotype.Component
-import java.util.*
+import java.util.Date
 
 @Component
-class SwapRequestTransformer: Transformer<SwapRequest, Swap> {
+class SwapRequestTransformer : Transformer<SwapRequest, Swap> {
 
     override fun transform(source: SwapRequest): Swap {
         return Swap(
@@ -19,10 +17,10 @@ class SwapRequestTransformer: Transformer<SwapRequest, Swap> {
             offerTitle = source.offerMember?.bookTitle ?: "",
             offerAuthor = source.offerMember?.bookAuthor ?: "",
             offerCover = source.offerMember?.bookCover ?: "",
-            recipientOwnerId =  source.recipientMember?.ownerId ?: 0,
+            recipientOwnerId = source.recipientMember?.ownerId ?: 0,
             recipientBookId = source.recipientMember?.bookId ?: 0,
             recipientTitle = source.recipientMember?.bookTitle ?: "",
-            recipientAuthor =  source.recipientMember?.bookAuthor ?: "",
+            recipientAuthor = source.recipientMember?.bookAuthor ?: "",
             recipientCover = source.recipientMember?.bookCover ?: "",
             createdDate = source.createdDate ?: Date(),
             swapDate = source.swapDate ?: Date(),
