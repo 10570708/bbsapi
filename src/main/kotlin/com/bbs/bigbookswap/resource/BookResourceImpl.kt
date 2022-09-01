@@ -284,7 +284,7 @@ class BookResourceImpl(private val bookManagementService: BookManagementService,
 
     @CrossOrigin(origins = ["http://localhost:4200"])
     @PutMapping("/{id}")
-    override fun updateBook(@RequestBody updateBookRequest: AddBookRequest): ResponseEntity<BookResponse> {
+    override fun updateBook(@RequestBody updateBookRequest: UpdateBookRequest): ResponseEntity<BookResponse> {
         return ResponseEntity.ok(this.bookManagementService.updateBook(updateBookRequest))
     }
 

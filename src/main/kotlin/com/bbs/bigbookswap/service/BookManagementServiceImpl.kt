@@ -68,10 +68,10 @@ class BookManagementServiceImpl(private val bookDao: BookDao,
     override fun findAllByOwnerIdAndStatus(ownerId: Long, status: String) = this.bookDao.findAllByOwnerIdAndStatusIgnoreCase(ownerId,status)
 
 
-    override fun updateBook(addBookRequest: AddBookRequest): BookResponse {
-        val book = this.findBookbyId(addBookRequest.id) ?: throw IllegalStateException("${addBookRequest.id} not found")
+    override fun updateBook(updateBookRequest: UpdateBookRequest): BookResponse {
+        val book = this.findBookbyId(updateBookRequest.id) ?: throw IllegalStateException("${updateBookRequest.id} not found")
         return this.saveOrUpdate(book.apply {
-            this.status = addBookRequest.status
+            this.status = updateBookRequest.status
         })
 
     }

@@ -10,12 +10,8 @@ import org.springframework.stereotype.Repository
 @Repository
 interface BookDao: JpaRepository<Book, Long> {
 
-//    @Query(value = "SELECT  FROM BOOKS  WHERE author like %:author% ORDER BY author")
-//    @Query("SELECT e FROM BOOKS e WHERE e.author =:id ")
     fun findAllByAuthorIgnoreCaseContainsOrTitleIgnoreCaseContains(author: String, title: String,pageable: Pageable): Page<BookResponse>
     fun findAllByOwnerIdAndStatusIgnoreCase(ownerId: Long, status: String): List<BookResponse>
-
-
     fun findAllByOwnerId(id: Long, pageable: Pageable): Page<BookResponse>
     fun findByOwnerIdNot(id: Long, pageable: Pageable): Page<BookResponse>
     fun findAllByAuthorIgnoreCaseContainsOrTitleIgnoreCaseContainsAndOwnerId(author: String, title: String, id: Long, pageable: Pageable): Page<BookResponse>
