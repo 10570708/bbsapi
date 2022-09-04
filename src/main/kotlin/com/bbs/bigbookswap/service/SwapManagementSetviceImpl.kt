@@ -70,11 +70,11 @@ class SwapManagementServiceImpl(private val swapDao: SwapDao, private val addSwa
             }).toSwapResponse()
         }
 
-    override fun findAllByOwnerId(id: Long): List<SwapResponse> = this.swapDao.findAllByRecipientOwnerIdOrOfferOwnerId(id,id).map(Swap::toSwapResponse)
+    override fun findAllByOwnerId(id: Long): List<SwapResponse> = this.swapDao.findAllByRecipientOwnerIdOrOfferOwnerIdOrderByCreatedDateDesc(id,id).map(Swap::toSwapResponse)
 
-    override fun findMyPendingById(id: Long): List<SwapResponse> = this.swapDao.findAllByOfferOwnerIdAndStatusIsIgnoreCaseOrRecipientOwnerIdAndStatusIsIgnoreCase(id, "Accepted", id, "Accepted").map(Swap::toSwapResponse)
+    override fun findMyPendingById(id: Long): List<SwapResponse> = this.swapDao.findAllByOfferOwnerIdAndStatusIsIgnoreCaseOrRecipientOwnerIdAndStatusIsIgnoreCaseOrderByCreatedDateDesc(id, "Accepted", id, "Accepted").map(Swap::toSwapResponse)
 
-    override fun findMyCompleteById(id: Long): List<SwapResponse> = this.swapDao.findAllByOfferOwnerIdAndStatusIsIgnoreCaseOrRecipientOwnerIdAndStatusIsIgnoreCase(id, "Complete", id, "Complete").map(Swap::toSwapResponse)
+    override fun findMyCompleteById(id: Long): List<SwapResponse> = this.swapDao.findAllByOfferOwnerIdAndStatusIsIgnoreCaseOrRecipientOwnerIdAndStatusIsIgnoreCaseOrderBySwapDateDesc(id, "Complete", id, "Complete").map(Swap::toSwapResponse)
 
     override fun findMyRequests(id: Long): List<SwapResponse> = this.swapDao.findByOfferOwnerIdAndStatusIgnoreCase(id,"Requested").map(Swap::toSwapResponse)
 

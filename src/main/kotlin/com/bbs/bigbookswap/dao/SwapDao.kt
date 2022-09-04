@@ -7,14 +7,23 @@ import org.springframework.stereotype.Repository
 @Repository
 interface SwapDao : JpaRepository<Swap, Long> {
 
-    fun findAllByRecipientOwnerIdOrOfferOwnerId(RecipientOwnerId: Long, OfferOwnerId: Long): List<Swap>
+    fun findAllByRecipientOwnerIdOrOfferOwnerIdOrderByCreatedDateDesc(RecipientOwnerId: Long, OfferOwnerId: Long): List<Swap>
     fun findByRecipientOwnerIdAndStatusIgnoreCase(id: Long, status: String): List<Swap>
     fun findByOfferOwnerIdAndStatusIgnoreCase(id: Long, status: String): List<Swap>
-    fun findAllByOfferOwnerIdAndStatusIsIgnoreCaseOrRecipientOwnerIdAndStatusIsIgnoreCase(
+    fun findAllByOfferOwnerIdAndStatusIsIgnoreCaseOrRecipientOwnerIdAndStatusIsIgnoreCaseOrderBySwapDateDesc(
         OfferOwnerId: Long,
         status1: String,
         RecipientOwnerId: Long,
         status: String
     ): List<Swap>
+
+
+    fun findAllByOfferOwnerIdAndStatusIsIgnoreCaseOrRecipientOwnerIdAndStatusIsIgnoreCaseOrderByCreatedDateDesc(
+        OfferOwnerId: Long,
+        status1: String,
+        RecipientOwnerId: Long,
+        status: String
+    ): List<Swap>
+
 
 }
