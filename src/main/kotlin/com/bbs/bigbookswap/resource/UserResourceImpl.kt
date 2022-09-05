@@ -1,3 +1,5 @@
+// Written By: Lisa Daly (StudentID: 10570708) - DBS 2022 Final Project B8IT131_2122_TME2 //
+
 package com.bbs.bigbookswap.resource
 
 import com.bbs.bigbookswap.domain.BBSUser
@@ -7,8 +9,7 @@ import com.bbs.bigbookswap.dto.AddUserRequest
 import com.bbs.bigbookswap.dto.UserResponse
 import com.bbs.bigbookswap.dto.UserLoginRequest
 import com.bbs.bigbookswap.resource.UserResourceImpl.Companion.BASE_USER_URL
-import com.bbs.bigbookswap.service.AuthValidation
-import com.bbs.bigbookswap.service.UserManagmentService
+import com.bbs.bigbookswap.service.UserManagementServiceImpl
 import io.jsonwebtoken.Jwts
 import io.jsonwebtoken.SignatureAlgorithm
 import org.springframework.data.domain.Page
@@ -25,24 +26,23 @@ import javax.servlet.http.HttpServletResponse
 @RestController
 @RequestMapping(value = [BASE_USER_URL])
 class UserResourceImpl(
-    private val userManagmentService: UserManagmentService,
-    private val authManager: AuthValidation
+    private val userManagementService: UserManagementServiceImpl
 ) : UserResource {
 
     @GetMapping("/{id}")
     override fun findById(@PathVariable id: Long): ResponseEntity<BBSUser> {
-        val userResponse = this.userManagmentService.findById(id)
+        val userResponse = this.userManagementService.findById(id)
         return ResponseEntity.status(HttpStatus.OK).body(userResponse)
     }
 
     @GetMapping("/all")
     override fun findAll(pageable: Pageable): ResponseEntity<Page<UserResponse>> {
-        return ResponseEntity.ok(this.userManagmentService.findAll(pageable))
+        return ResponseEntity.ok(this.userManagementService.findAll(pageable))
     }
 
     @PostMapping
     override fun save(@RequestBody addUserRequest: AddUserRequest): ResponseEntity<UserResponse> {
-        val userResponse = this.userManagmentService.save(addUserRequest)
+        val userResponse = this.userManagementService.save(addUserRequest)
         return ResponseEntity
             .created(URI.create(BASE_USER_URL.plus("/${userResponse.id}")))
             .body(userResponse)
@@ -55,7 +55,7 @@ class UserResourceImpl(
         response: HttpServletResponse
     ): ResponseEntity<Any> {
 
-        val user = this.userManagmentService.findByUsername(userLoginRequest.username)
+        val user = this.userManagementService.findByUsername(userLoginRequest.username)
             ?: return ResponseEntity.badRequest().body(Message("User not Found"))
 
         if (!user.comparePasswords(userLoginRequest.password, user.password))
@@ -87,9 +87,8 @@ class UserResourceImpl(
             }
 
             val body = Jwts.parser().setSigningKey("secret").parseClaimsJws(jwt).body
-            var tmp = this.userManagmentService.findById(body.issuer.toLong())
 
-            return ResponseEntity.ok(this.userManagmentService.findById(body.issuer.toLong()))
+            return ResponseEntity.ok(this.userManagementService.findById(body.issuer.toLong()))
         } catch (e: Exception) {
             return ResponseEntity.status(401).body(Message("notauthenticated"))
         }
@@ -114,45 +113,45 @@ class UserResourceImpl(
 
     @PutMapping("/{id}")
     override fun update(@RequestBody updateUserRequest: UpdateUserRequest): ResponseEntity<UserResponse> {
-        return ResponseEntity.ok(this.userManagmentService.update(updateUserRequest))
+        return ResponseEntity.ok(this.userManagementService.update(updateUserRequest))
     }
 
     @PutMapping("/bookcount/{id}")
     override fun updateBookCount(@PathVariable id: Long): ResponseEntity<UserResponse> {
-        return ResponseEntity.ok(this.userManagmentService.updateBookCount(id))
+        return ResponseEntity.ok(this.userManagementService.updateBookCount(id))
     }
 
     @PutMapping("/bookcount/reduce/{id}")
     override fun reduceBookCount(@PathVariable id: Long): ResponseEntity<UserResponse> {
-        return ResponseEntity.ok(this.userManagmentService.reduceBookCount(id))
+        return ResponseEntity.ok(this.userManagementService.reduceBookCount(id))
     }
 
     @PutMapping("/swapcount/{id}")
     override fun updateSwapCount(@PathVariable id: Long): ResponseEntity<UserResponse> {
-        return ResponseEntity.ok(this.userManagmentService.updateSwapCount(id))
+        return ResponseEntity.ok(this.userManagementService.updateSwapCount(id))
     }
 
 
     @PutMapping("/donatecount/{id}")
     override fun updateDonateCount(@PathVariable id: Long): ResponseEntity<UserResponse> {
-        return ResponseEntity.ok(this.userManagmentService.updateDonateCount(id))
+        return ResponseEntity.ok(this.userManagementService.updateDonateCount(id))
     }
 
     @PutMapping("/avatar/{id}/{avatar}")
     override fun updateAvatar(@PathVariable id: Long, @PathVariable avatar: String): ResponseEntity<UserResponse> {
-        return ResponseEntity.ok(this.userManagmentService.updateAvatar(id, avatar))
+        return ResponseEntity.ok(this.userManagementService.updateAvatar(id, avatar))
     }
 
     @DeleteMapping("/{id}")
     override fun delete(@PathVariable id: Long): ResponseEntity<Unit> {
-        this.userManagmentService.delete(id)
+        this.userManagementService.delete(id)
         return ResponseEntity.noContent().build()
     }
 
     @GetMapping("/avatars/{avatar}")
     override fun findByAvatar(@PathVariable avatar: String): ResponseEntity<List<UserResponse>> {
 
-        return ResponseEntity.ok(this.userManagmentService.findByAvatar(avatar))
+        return ResponseEntity.ok(this.userManagementService.findByAvatar(avatar))
     }
 
     companion object {

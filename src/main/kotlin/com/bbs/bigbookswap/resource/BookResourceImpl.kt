@@ -1,11 +1,14 @@
+// Written By: Lisa Daly (StudentID: 10570708) - DBS 2022 Final Project B8IT131_2122_TME2 //
+// Implementation of the BookResource Interface - Rest Controller for Book API
+
+
 package com.bbs.bigbookswap.resource
 
 import com.bbs.bigbookswap.dto.AddBookRequest
 import com.bbs.bigbookswap.dto.BookResponse
 import com.bbs.bigbookswap.dto.UpdateBookRequest
 import com.bbs.bigbookswap.resource.BookResourceImpl.Companion.BASE_BOOK_URL
-import com.bbs.bigbookswap.service.AuthValidation
-import com.bbs.bigbookswap.service.BookManagementService
+import com.bbs.bigbookswap.service.BookManagementServiceImpl
 import org.springframework.data.domain.Page
 import org.springframework.data.domain.Pageable
 import org.springframework.http.HttpStatus
@@ -17,8 +20,7 @@ import java.net.URI
 @RestController
 @RequestMapping(value = [BASE_BOOK_URL])
 class BookResourceImpl(
-    private val bookManagementService: BookManagementService,
-    private val authManager: AuthValidation
+    private val bookManagementService: BookManagementServiceImpl,
 ) : BookResource {
 
     @CrossOrigin(origins = ["http://localhost:4200"])
@@ -488,11 +490,6 @@ class BookResourceImpl(
         return ResponseEntity.ok("done")
     }
 
-//    @GetMapping("/avatars/{avatar}")
-//    override fun findAllByTitleOrAuthor(@PathVariable avatar: String): ResponseEntity<List<BookResponse>> {
-//
-//        return ResponseEntity.ok(this.bookManagementService.findByAvatar(avatar))
-//    }
 
     companion object {
         const val BASE_BOOK_URL: String = "/api/v1/book"

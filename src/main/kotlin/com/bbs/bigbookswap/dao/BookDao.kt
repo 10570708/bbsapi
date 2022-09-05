@@ -1,3 +1,7 @@
+// Written By: Lisa Daly (StudentID: 10570708) - DBS 2022 Final Project B8IT131_2122_TME2 //
+// Contains the custom JPA Repository queries for Books - particularly by search criteria :
+// Author/Title Search | Status | Condition | Option
+
 package com.bbs.bigbookswap.dao
 
 import com.bbs.bigbookswap.domain.Book
@@ -10,15 +14,22 @@ import org.springframework.stereotype.Repository
 @Repository
 interface BookDao : JpaRepository<Book, Long> {
 
+    fun findAllByStatus(status: String): List<Book>
+    fun findAllByConditionIgnoreCase(condition: String, pageable: Pageable): Page<BookResponse>
+    fun findAllByOptionIgnoreCase(option: String, pageable: Pageable): Page<BookResponse>
+    fun findAllByOwnerIdAndStatusIgnoreCase(ownerId: Long, status: String): List<BookResponse>
+    fun findAllByOwnerId(id: Long, pageable: Pageable): Page<BookResponse>
+    fun findByOwnerIdNot(id: Long, pageable: Pageable): Page<BookResponse>
+    fun findAllByConditionIgnoreCaseAndOwnerId(condition: String, id: Long, pageable: Pageable): Page<BookResponse>
+    fun findAllByConditionIgnoreCaseAndOwnerIdNot(condition: String, id: Long, pageable: Pageable): Page<BookResponse>
+    fun findAllByOptionIgnoreCaseAndOwnerId(option: String, id: Long, pageable: Pageable): Page<BookResponse>
+    fun findAllByOptionIgnoreCaseAndOwnerIdNot(option: String, id: Long, pageable: Pageable): Page<BookResponse>
     fun findAllByAuthorIgnoreCaseContainsOrTitleIgnoreCaseContains(
         author: String,
         title: String,
         pageable: Pageable
     ): Page<BookResponse>
 
-    fun findAllByOwnerIdAndStatusIgnoreCase(ownerId: Long, status: String): List<BookResponse>
-    fun findAllByOwnerId(id: Long, pageable: Pageable): Page<BookResponse>
-    fun findByOwnerIdNot(id: Long, pageable: Pageable): Page<BookResponse>
     fun findAllByAuthorIgnoreCaseContainsOrTitleIgnoreCaseContainsAndOwnerId(
         author: String,
         title: String,
@@ -51,10 +62,7 @@ interface BookDao : JpaRepository<Book, Long> {
         pageable: Pageable
     ): Page<BookResponse>
 
-    fun findAllByConditionIgnoreCaseAndOwnerId(condition: String, id: Long, pageable: Pageable): Page<BookResponse>
-    fun findAllByConditionIgnoreCaseAndOwnerIdNot(condition: String, id: Long, pageable: Pageable): Page<BookResponse>
-    fun findAllByOptionIgnoreCaseAndOwnerId(option: String, id: Long, pageable: Pageable): Page<BookResponse>
-    fun findAllByOptionIgnoreCaseAndOwnerIdNot(option: String, id: Long, pageable: Pageable): Page<BookResponse>
+
     fun findAllByAuthorIgnoreCaseContainsOrTitleIgnoreCaseContainsAndConditionIgnoreCaseAndOwnerId(
         author: String,
         title: String,
@@ -129,11 +137,6 @@ interface BookDao : JpaRepository<Book, Long> {
         option: String,
         pageable: Pageable
     ): Page<BookResponse>
-
-    fun findAllByConditionIgnoreCase(condition: String, pageable: Pageable): Page<BookResponse>
-    fun findAllByStatus(status: String): List<Book>
-    fun findAllByOptionIgnoreCase(option: String, pageable: Pageable): Page<BookResponse>
-    fun findAllByAuthorContainsOrTitleContainsAndStatusIs(author: String, title: String, status: String)
 
 
 }

@@ -1,3 +1,6 @@
+// Written By: Lisa Daly (StudentID: 10570708) - DBS 2022 Final Project B8IT131_2122_TME2 //
+// Definition of the BookManagement Service Interface and all the Methods it defines
+
 package com.bbs.bigbookswap.service
 
 import com.bbs.bigbookswap.dto.AddBookRequest

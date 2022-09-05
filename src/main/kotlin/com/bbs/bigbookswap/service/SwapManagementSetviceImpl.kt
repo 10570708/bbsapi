@@ -1,3 +1,6 @@
+// Written By: Lisa Daly (StudentID: 10570708) - DBS 2022 Final Project B8IT131_2122_TME2 //
+// Implementation of the SwapManagement Service and the override methods for the interface
+
 package com.bbs.bigbookswap.service
 
 import com.bbs.bigbookswap.dao.SwapDao
@@ -11,7 +14,9 @@ import org.springframework.stereotype.Service
 import java.util.Date
 
 @Service
-class SwapManagementServiceImpl(private val swapDao: SwapDao, private val addSwapRequestTransformer: SwapRequestTransformer): SwapManagementService
+class SwapManagementServiceImpl(
+    private val swapDao: SwapDao,
+    private val addSwapRequestTransformer: SwapRequestTransformer): SwapManagementService
 {
 
 
@@ -42,8 +47,6 @@ class SwapManagementServiceImpl(private val swapDao: SwapDao, private val addSwa
             this.swapDate = Date()
         }).toSwapResponse()
 
-        return this.saveOrUpdate(
-            addSwapRequestTransformer.transform(updateSwapRequest)).toSwapResponse()
     }
 
     override fun update(updateSwapRequest: SwapRequest): SwapResponse {

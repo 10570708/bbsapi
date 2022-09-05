@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.RestController
 class BigbookswapApplication {
 
     @GetMapping
-    fun hi(): BBSUser {
+    fun test(): BBSUser {
         return BBSUser(username = "LisaDaly", id = 2)
     }
 }

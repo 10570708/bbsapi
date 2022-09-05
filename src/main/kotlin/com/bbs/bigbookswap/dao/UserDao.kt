@@ -1,3 +1,7 @@
+// Written By: Lisa Daly (StudentID: 10570708) - DBS 2022 Final Project B8IT131_2122_TME2 //
+// Contains the custom JPA Repository queries for Users - particularly by search criteria :
+// Avatar | Username
+
 package com.bbs.bigbookswap.dao
 
 import com.bbs.bigbookswap.domain.BBSUser

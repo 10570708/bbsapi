@@ -1,8 +1,11 @@
+// Written By: Lisa Daly (StudentID: 10570708) - DBS 2022 Final Project B8IT131_2122_TME2 //
+// Implementation of the SwapResource Interface - Rest Controller for Swap API
+
 package com.bbs.bigbookswap.resource
 
 import com.bbs.bigbookswap.dto.SwapRequest
 import com.bbs.bigbookswap.dto.SwapResponse
-import com.bbs.bigbookswap.service.SwapManagementService
+import com.bbs.bigbookswap.service.SwapManagementServiceImpl
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.*
 import java.net.URI
@@ -10,7 +13,7 @@ import java.net.URI
 @CrossOrigin(origins = ["http://localhost:8080"])
 @RestController
 @RequestMapping(value = [SwapResourceImpl.BASE_SWAP_URL])
-class SwapResourceImpl(private val swapManagementService: SwapManagementService) : SwapResource {
+class SwapResourceImpl(private val swapManagementService: SwapManagementServiceImpl) : SwapResource {
 
     @CrossOrigin(origins = ["http://localhost:4200"])
     @PostMapping

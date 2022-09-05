@@ -1,3 +1,6 @@
+// Written By: Lisa Daly (StudentID: 10570708) - DBS 2022 Final Project B8IT131_2122_TME2 //
+// Transformer class for BookRequest -> Book
+
 package com.bbs.bigbookswap.transformer
 
 import com.bbs.bigbookswap.domain.Book
