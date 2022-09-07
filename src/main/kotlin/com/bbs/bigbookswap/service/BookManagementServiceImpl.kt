@@ -23,8 +23,6 @@ class BookManagementServiceImpl(
 
     override fun findById(id: Long): BookResponse? = this.findBookbyId(id).toBookResponse()
 
-    //override fun findByAvatar(avatar: String): List<BookResponse> = this.bookDao.findByAvatar(avatar).map(BBSUser::toUserResponse)  ?: emptyList()
-
     override fun findAll(pageable: Pageable): Page<BookResponse> =
         this.bookDao.findAll(pageable).map(Book::toBookResponse)
 
@@ -40,8 +38,6 @@ class BookManagementServiceImpl(
         pageable: Pageable
     ): Page<BookResponse> =
         this.bookDao.findAllByAuthorIgnoreCaseContainsOrTitleIgnoreCaseContains(searchString1, searchString2, pageable)
-
-    //override fun findAllByAuthorContainsOrTitleContainsAndStatusIs(searchString1: String,searchString2: String,pageable: Pageable) : Page<BookResponse> = this.bookDao.findAllByAuthorIgnoreCaseContainsOrTitleIgnoreCaseContains(searchString1,searchString2,pageable)
 
     override fun findAllByConditionOptionOwnerId(
         condition: String,

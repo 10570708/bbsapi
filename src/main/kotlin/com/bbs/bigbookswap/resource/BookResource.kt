@@ -120,13 +120,11 @@ interface BookResource {
     ): ResponseEntity<Page<BookResponse>>
 
 
-    //fun findAllByStatus(avatar: String): ResponseEntity<List<BookResponse>>
     fun findAll(jwt: String?, pageable: Pageable): ResponseEntity<Page<BookResponse>>
     fun save(addBookRequest: AddBookRequest): ResponseEntity<BookResponse>
     fun updateBook(updateBookRequest: UpdateBookRequest): ResponseEntity<BookResponse>
     fun delete(id: Long): ResponseEntity<String>
 
-    //fun findAllByOwnerId(id: Long): ResponseEntity<List<BookResponse>>
     fun findAllByStatus(status: String): ResponseEntity<List<BookResponse>>
     fun findAllByCondition(condition: String, pageable: Pageable): ResponseEntity<Page<BookResponse>>
 

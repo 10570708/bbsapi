@@ -7,7 +7,7 @@ spring:
     ansi:
       enabled: ALWAYS
   datasource:
-    url: jdbc:h2:file:C:\Users\pdboo\dbs\api\db
+    url: jdbc:h2:file:~\dbs\api\db
     username: sa
     password: sa
     initialization-mode: always
@@ -15,6 +15,7 @@ spring:
   jpa:
     hibernate:
       ddl-auto: update
+    defer-datasource-initialization: true
 
 
 logging:
