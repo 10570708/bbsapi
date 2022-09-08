@@ -14,37 +14,38 @@ import org.springframework.stereotype.Repository
 @Repository
 interface BookDao : JpaRepository<Book, Long> {
 
-    fun findAllByStatus(status: String): List<Book>
-    fun findAllByConditionIgnoreCase(condition: String, pageable: Pageable): Page<BookResponse>
-    fun findAllByOptionIgnoreCase(option: String, pageable: Pageable): Page<BookResponse>
-    fun findAllByOwnerIdAndStatusIgnoreCase(ownerId: Long, status: String): List<BookResponse>
-    fun findAllByOwnerId(id: Long, pageable: Pageable): Page<BookResponse>
-    fun findByOwnerIdNot(id: Long, pageable: Pageable): Page<BookResponse>
-    fun findAllByConditionIgnoreCaseAndOwnerId(condition: String, id: Long, pageable: Pageable): Page<BookResponse>
-    fun findAllByConditionIgnoreCaseAndOwnerIdNot(condition: String, id: Long, pageable: Pageable): Page<BookResponse>
-    fun findAllByOptionIgnoreCaseAndOwnerId(option: String, id: Long, pageable: Pageable): Page<BookResponse>
-    fun findAllByOptionIgnoreCaseAndOwnerIdNot(option: String, id: Long, pageable: Pageable): Page<BookResponse>
-    fun findAllByAuthorIgnoreCaseContainsOrTitleIgnoreCaseContains(
+    fun findAllByOrderByAddedDateDesc(pageable: Pageable): Page<BookResponse>
+    fun findAllByStatusOrderByAddedDateDesc(status: String): List<Book>
+    fun findAllByConditionIgnoreCaseOrderByAddedDateDesc(condition: String, pageable: Pageable): Page<BookResponse>
+    fun findAllByOptionIgnoreCaseOrderByAddedDateDesc(option: String, pageable: Pageable): Page<BookResponse>
+    fun findAllByOwnerIdAndStatusIgnoreCaseOrderByAddedDateDesc(ownerId: Long, status: String): List<BookResponse>
+    fun findAllByOwnerIdOrderByAddedDateDesc(id: Long, pageable: Pageable): Page<BookResponse>
+    fun findByOwnerIdNotOrderByAddedDateDesc(id: Long, pageable: Pageable): Page<BookResponse>
+    fun findAllByConditionIgnoreCaseAndOwnerIdOrderByAddedDateDesc(condition: String, id: Long, pageable: Pageable): Page<BookResponse>
+    fun findAllByConditionIgnoreCaseAndOwnerIdNotOrderByAddedDateDesc(condition: String, id: Long, pageable: Pageable): Page<BookResponse>
+    fun findAllByOptionIgnoreCaseAndOwnerIdOrderByAddedDateDesc(option: String, id: Long, pageable: Pageable): Page<BookResponse>
+    fun findAllByOptionIgnoreCaseAndOwnerIdNotOrderByAddedDateDesc(option: String, id: Long, pageable: Pageable): Page<BookResponse>
+    fun findAllByAuthorIgnoreCaseContainsOrTitleIgnoreCaseContainsOrderByAddedDateDesc(
         author: String,
         title: String,
         pageable: Pageable
     ): Page<BookResponse>
 
-    fun findAllByAuthorIgnoreCaseContainsOrTitleIgnoreCaseContainsAndOwnerId(
-        author: String,
-        title: String,
-        id: Long,
-        pageable: Pageable
-    ): Page<BookResponse>
-
-    fun findAllByAuthorIgnoreCaseContainsOrTitleIgnoreCaseContainsAndOwnerIdNot(
+    fun findAllByAuthorIgnoreCaseContainsOrTitleIgnoreCaseContainsAndOwnerIdOrderByAddedDateDesc(
         author: String,
         title: String,
         id: Long,
         pageable: Pageable
     ): Page<BookResponse>
 
-    fun findAllByAuthorIgnoreCaseContainsOrTitleIgnoreCaseContainsAndConditionIgnoreCaseAndOptionIgnoreCaseAndOwnerId(
+    fun findAllByAuthorIgnoreCaseContainsOrTitleIgnoreCaseContainsAndOwnerIdNotOrderByAddedDateDesc(
+        author: String,
+        title: String,
+        id: Long,
+        pageable: Pageable
+    ): Page<BookResponse>
+
+    fun findAllByAuthorIgnoreCaseContainsOrTitleIgnoreCaseContainsAndConditionIgnoreCaseAndOptionIgnoreCaseAndOwnerIdOrderByAddedDateDesc(
         author: String,
         title: String,
         condition: String,
@@ -53,7 +54,7 @@ interface BookDao : JpaRepository<Book, Long> {
         pageable: Pageable
     ): Page<BookResponse>
 
-    fun findAllByAuthorIgnoreCaseContainsOrTitleIgnoreCaseContainsAndConditionIgnoreCaseAndOptionIgnoreCaseAndOwnerIdNot(
+    fun findAllByAuthorIgnoreCaseContainsOrTitleIgnoreCaseContainsAndConditionIgnoreCaseAndOptionIgnoreCaseAndOwnerIdNotOrderByAddedDateDesc(
         author: String,
         title: String,
         condition: String,
@@ -63,7 +64,7 @@ interface BookDao : JpaRepository<Book, Long> {
     ): Page<BookResponse>
 
 
-    fun findAllByAuthorIgnoreCaseContainsOrTitleIgnoreCaseContainsAndConditionIgnoreCaseAndOwnerId(
+    fun findAllByAuthorIgnoreCaseContainsOrTitleIgnoreCaseContainsAndConditionIgnoreCaseAndOwnerIdOrderByAddedDateDesc(
         author: String,
         title: String,
         condition: String,
@@ -71,7 +72,7 @@ interface BookDao : JpaRepository<Book, Long> {
         pageable: Pageable
     ): Page<BookResponse>
 
-    fun findAllByAuthorIgnoreCaseContainsOrTitleIgnoreCaseContainsAndConditionIgnoreCaseAndOwnerIdNot(
+    fun findAllByAuthorIgnoreCaseContainsOrTitleIgnoreCaseContainsAndConditionIgnoreCaseAndOwnerIdNotOrderByAddedDateDesc(
         author: String,
         title: String,
         condition: String,
@@ -79,7 +80,7 @@ interface BookDao : JpaRepository<Book, Long> {
         pageable: Pageable
     ): Page<BookResponse>
 
-    fun findAllByAuthorIgnoreCaseContainsOrTitleIgnoreCaseContainsAndOptionIgnoreCaseAndOwnerId(
+    fun findAllByAuthorIgnoreCaseContainsOrTitleIgnoreCaseContainsAndOptionIgnoreCaseAndOwnerIdOrderByAddedDateDesc(
         author: String,
         title: String,
         option: String,
@@ -87,7 +88,7 @@ interface BookDao : JpaRepository<Book, Long> {
         pageable: Pageable
     ): Page<BookResponse>
 
-    fun findAllByAuthorIgnoreCaseContainsOrTitleIgnoreCaseContainsAndOptionIgnoreCaseAndOwnerIdNot(
+    fun findAllByAuthorIgnoreCaseContainsOrTitleIgnoreCaseContainsAndOptionIgnoreCaseAndOwnerIdNotOrderByAddedDateDesc(
         author: String,
         title: String,
         option: String,
@@ -95,42 +96,42 @@ interface BookDao : JpaRepository<Book, Long> {
         pageable: Pageable
     ): Page<BookResponse>
 
-    fun findAllByAuthorIgnoreCaseContainsOrTitleIgnoreCaseContainsAndConditionIgnoreCase(
+    fun findAllByAuthorIgnoreCaseContainsOrTitleIgnoreCaseContainsAndConditionIgnoreCaseOrderByAddedDateDesc(
         author: String,
         title: String,
         condition: String,
         pageable: Pageable
     ): Page<BookResponse>
 
-    fun findAllByAuthorIgnoreCaseContainsOrTitleIgnoreCaseContainsAndOptionIgnoreCase(
+    fun findAllByAuthorIgnoreCaseContainsOrTitleIgnoreCaseContainsAndOptionIgnoreCaseOrderByAddedDateDesc(
         author: String,
         title: String,
         option: String,
         pageable: Pageable
     ): Page<BookResponse>
 
-    fun findAllByConditionIgnoreCaseAndOptionIgnoreCase(
+    fun findAllByConditionIgnoreCaseAndOptionIgnoreCaseOrderByAddedDateDesc(
         option: String,
         condition: String,
         pageable: Pageable
     ): Page<BookResponse>
 
 
-    fun findAllByConditionIgnoreCaseAndOptionIgnoreCaseAndOwnerId(
-        condition: String,
-        option: String,
-        id: Long,
-        pageable: Pageable
-    ): Page<BookResponse>
-
-    fun findAllByConditionIgnoreCaseAndOptionIgnoreCaseAndOwnerIdNot(
+    fun findAllByConditionIgnoreCaseAndOptionIgnoreCaseAndOwnerIdOrderByAddedDateDesc(
         condition: String,
         option: String,
         id: Long,
         pageable: Pageable
     ): Page<BookResponse>
 
-    fun findAllByAuthorIgnoreCaseContainsOrTitleIgnoreCaseContainsAndConditionIgnoreCaseAndOptionIgnoreCase(
+    fun findAllByConditionIgnoreCaseAndOptionIgnoreCaseAndOwnerIdNotOrderByAddedDateDesc(
+        condition: String,
+        option: String,
+        id: Long,
+        pageable: Pageable
+    ): Page<BookResponse>
+
+    fun findAllByAuthorIgnoreCaseContainsOrTitleIgnoreCaseContainsAndConditionIgnoreCaseAndOptionIgnoreCaseOrderByAddedDateDesc(
         author: String,
         title: String,
         condition: String,

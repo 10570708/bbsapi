@@ -24,7 +24,10 @@ class BookManagementServiceImpl(
     override fun findById(id: Long): BookResponse? = this.findBookbyId(id).toBookResponse()
 
     override fun findAll(pageable: Pageable): Page<BookResponse> =
-        this.bookDao.findAll(pageable).map(Book::toBookResponse)
+        this.bookDao.findAllByOrderByAddedDateDesc(pageable)
+
+    fun findAllOrderByAddedDateDesc(pageable: Pageable): Page<BookResponse> =
+        this.bookDao.findAllByOrderByAddedDateDesc(pageable)
 
     override fun save(addBookRequest: AddBookRequest): BookResponse {
         return this.saveOrUpdate(
@@ -37,7 +40,7 @@ class BookManagementServiceImpl(
         searchString2: String,
         pageable: Pageable
     ): Page<BookResponse> =
-        this.bookDao.findAllByAuthorIgnoreCaseContainsOrTitleIgnoreCaseContains(searchString1, searchString2, pageable)
+        this.bookDao.findAllByAuthorIgnoreCaseContainsOrTitleIgnoreCaseContainsOrderByAddedDateDesc(searchString1, searchString2, pageable)
 
     override fun findAllByConditionOptionOwnerId(
         condition: String,
@@ -45,7 +48,7 @@ class BookManagementServiceImpl(
         owner: Long,
         pageable: Pageable
     ): Page<BookResponse> =
-        this.bookDao.findAllByConditionIgnoreCaseAndOptionIgnoreCaseAndOwnerId(condition, option, owner, pageable)
+        this.bookDao.findAllByConditionIgnoreCaseAndOptionIgnoreCaseAndOwnerIdOrderByAddedDateDesc(condition, option, owner, pageable)
 
     override fun findAllByConditionOptionOwnerIdNot(
         condition: String,
@@ -53,7 +56,7 @@ class BookManagementServiceImpl(
         owner: Long,
         pageable: Pageable
     ): Page<BookResponse> =
-        this.bookDao.findAllByConditionIgnoreCaseAndOptionIgnoreCaseAndOwnerIdNot(condition, option, owner, pageable)
+        this.bookDao.findAllByConditionIgnoreCaseAndOptionIgnoreCaseAndOwnerIdNotOrderByAddedDateDesc(condition, option, owner, pageable)
 
     override fun findAllBySearchConditionOption(
         search: String,
@@ -61,7 +64,7 @@ class BookManagementServiceImpl(
         option: String,
         pageable: Pageable
     ): Page<BookResponse> =
-        this.bookDao.findAllByAuthorIgnoreCaseContainsOrTitleIgnoreCaseContainsAndConditionIgnoreCaseAndOptionIgnoreCase(
+        this.bookDao.findAllByAuthorIgnoreCaseContainsOrTitleIgnoreCaseContainsAndConditionIgnoreCaseAndOptionIgnoreCaseOrderByAddedDateDesc(
             search,
             search,
             condition,
@@ -70,13 +73,13 @@ class BookManagementServiceImpl(
         )
 
     override fun findAllByOwnerId(owner: Long, pageable: Pageable): Page<BookResponse> =
-        this.bookDao.findAllByOwnerId(owner, pageable)
+        this.bookDao.findAllByOwnerIdOrderByAddedDateDesc(owner, pageable)
 
     override fun findAllByOwnerIdNot(owner: Long, pageable: Pageable): Page<BookResponse> =
-        this.bookDao.findByOwnerIdNot(owner, pageable)
+        this.bookDao.findByOwnerIdNotOrderByAddedDateDesc(owner, pageable)
 
     override fun findAllBySearchOwnerId(search: String, owner: Long, pageable: Pageable): Page<BookResponse> =
-        this.bookDao.findAllByAuthorIgnoreCaseContainsOrTitleIgnoreCaseContainsAndOwnerId(
+        this.bookDao.findAllByAuthorIgnoreCaseContainsOrTitleIgnoreCaseContainsAndOwnerIdOrderByAddedDateDesc(
             search,
             search,
             owner,
@@ -84,7 +87,7 @@ class BookManagementServiceImpl(
         )
 
     override fun findAllBySearchOwnerIdNot(search: String, owner: Long, pageable: Pageable): Page<BookResponse> =
-        this.bookDao.findAllByAuthorIgnoreCaseContainsOrTitleIgnoreCaseContainsAndOwnerIdNot(
+        this.bookDao.findAllByAuthorIgnoreCaseContainsOrTitleIgnoreCaseContainsAndOwnerIdNotOrderByAddedDateDesc(
             search,
             search,
             owner,
@@ -98,7 +101,7 @@ class BookManagementServiceImpl(
         ownerId: Long,
         pageable: Pageable
     ): Page<BookResponse> =
-        this.bookDao.findAllByAuthorIgnoreCaseContainsOrTitleIgnoreCaseContainsAndConditionIgnoreCaseAndOptionIgnoreCaseAndOwnerId(
+        this.bookDao.findAllByAuthorIgnoreCaseContainsOrTitleIgnoreCaseContainsAndConditionIgnoreCaseAndOptionIgnoreCaseAndOwnerIdOrderByAddedDateDesc(
             search,
             search,
             condition,
@@ -114,7 +117,7 @@ class BookManagementServiceImpl(
         ownerId: Long,
         pageable: Pageable
     ): Page<BookResponse> =
-        this.bookDao.findAllByAuthorIgnoreCaseContainsOrTitleIgnoreCaseContainsAndConditionIgnoreCaseAndOptionIgnoreCaseAndOwnerIdNot(
+        this.bookDao.findAllByAuthorIgnoreCaseContainsOrTitleIgnoreCaseContainsAndConditionIgnoreCaseAndOptionIgnoreCaseAndOwnerIdNotOrderByAddedDateDesc(
             search,
             search,
             condition,
@@ -129,7 +132,7 @@ class BookManagementServiceImpl(
         ownerId: Long,
         pageable: Pageable
     ): Page<BookResponse> =
-        this.bookDao.findAllByAuthorIgnoreCaseContainsOrTitleIgnoreCaseContainsAndConditionIgnoreCaseAndOwnerId(
+        this.bookDao.findAllByAuthorIgnoreCaseContainsOrTitleIgnoreCaseContainsAndConditionIgnoreCaseAndOwnerIdOrderByAddedDateDesc(
             search,
             search,
             condition,
@@ -143,7 +146,7 @@ class BookManagementServiceImpl(
         ownerId: Long,
         pageable: Pageable
     ): Page<BookResponse> =
-        this.bookDao.findAllByAuthorIgnoreCaseContainsOrTitleIgnoreCaseContainsAndConditionIgnoreCaseAndOwnerIdNot(
+        this.bookDao.findAllByAuthorIgnoreCaseContainsOrTitleIgnoreCaseContainsAndConditionIgnoreCaseAndOwnerIdNotOrderByAddedDateDesc(
             search,
             search,
             condition,
@@ -152,19 +155,19 @@ class BookManagementServiceImpl(
         )
 
     override fun findAllByConditionOwnerId(condition: String, ownerId: Long, pageable: Pageable): Page<BookResponse> =
-        this.bookDao.findAllByConditionIgnoreCaseAndOwnerId(condition, ownerId, pageable)
+        this.bookDao.findAllByConditionIgnoreCaseAndOwnerIdOrderByAddedDateDesc(condition, ownerId, pageable)
 
     override fun findAllByConditionOwnerIdNot(
         condition: String,
         ownerId: Long,
         pageable: Pageable
-    ): Page<BookResponse> = this.bookDao.findAllByConditionIgnoreCaseAndOwnerIdNot(condition, ownerId, pageable)
+    ): Page<BookResponse> = this.bookDao.findAllByConditionIgnoreCaseAndOwnerIdNotOrderByAddedDateDesc(condition, ownerId, pageable)
 
     override fun findAllByOptionOwnerId(option: String, ownerId: Long, pageable: Pageable): Page<BookResponse> =
-        this.bookDao.findAllByOptionIgnoreCaseAndOwnerId(option, ownerId, pageable)
+        this.bookDao.findAllByOptionIgnoreCaseAndOwnerIdOrderByAddedDateDesc(option, ownerId, pageable)
 
     override fun findAllByOptionOwnerIdNot(option: String, ownerId: Long, pageable: Pageable): Page<BookResponse> =
-        this.bookDao.findAllByOptionIgnoreCaseAndOwnerIdNot(option, ownerId, pageable)
+        this.bookDao.findAllByOptionIgnoreCaseAndOwnerIdNotOrderByAddedDateDesc(option, ownerId, pageable)
 
     override fun findAllBySearchOptionOwnerId(
         search: String,
@@ -172,7 +175,7 @@ class BookManagementServiceImpl(
         ownerId: Long,
         pageable: Pageable
     ): Page<BookResponse> =
-        this.bookDao.findAllByAuthorIgnoreCaseContainsOrTitleIgnoreCaseContainsAndOptionIgnoreCaseAndOwnerId(
+        this.bookDao.findAllByAuthorIgnoreCaseContainsOrTitleIgnoreCaseContainsAndOptionIgnoreCaseAndOwnerIdOrderByAddedDateDesc(
             search,
             search,
             option,
@@ -186,7 +189,7 @@ class BookManagementServiceImpl(
         ownerId: Long,
         pageable: Pageable
     ): Page<BookResponse> =
-        this.bookDao.findAllByAuthorIgnoreCaseContainsOrTitleIgnoreCaseContainsAndOptionIgnoreCaseAndOwnerIdNot(
+        this.bookDao.findAllByAuthorIgnoreCaseContainsOrTitleIgnoreCaseContainsAndOptionIgnoreCaseAndOwnerIdNotOrderByAddedDateDesc(
             search,
             search,
             option,
@@ -195,7 +198,7 @@ class BookManagementServiceImpl(
         )
 
     override fun findAllBySearchCondition(search: String, condition: String, pageable: Pageable): Page<BookResponse> =
-        this.bookDao.findAllByAuthorIgnoreCaseContainsOrTitleIgnoreCaseContainsAndConditionIgnoreCase(
+        this.bookDao.findAllByAuthorIgnoreCaseContainsOrTitleIgnoreCaseContainsAndConditionIgnoreCaseOrderByAddedDateDesc(
             search,
             search,
             condition,
@@ -203,7 +206,7 @@ class BookManagementServiceImpl(
         )
 
     override fun findAllBySearchOption(search: String, option: String, pageable: Pageable): Page<BookResponse> =
-        this.bookDao.findAllByAuthorIgnoreCaseContainsOrTitleIgnoreCaseContainsAndOptionIgnoreCase(
+        this.bookDao.findAllByAuthorIgnoreCaseContainsOrTitleIgnoreCaseContainsAndOptionIgnoreCaseOrderByAddedDateDesc(
             search,
             search,
             option,
@@ -211,20 +214,20 @@ class BookManagementServiceImpl(
         )
 
     override fun findAllByConditionOption(condition: String, option: String, pageable: Pageable): Page<BookResponse> =
-        this.bookDao.findAllByConditionIgnoreCaseAndOptionIgnoreCase(condition, option, pageable)
+        this.bookDao.findAllByConditionIgnoreCaseAndOptionIgnoreCaseOrderByAddedDateDesc(condition, option, pageable)
 
 
     override fun findAllByStatus(status: String): List<BookResponse> =
-        this.bookDao.findAllByStatus(status).map(Book::toBookResponse)
+        this.bookDao.findAllByStatusOrderByAddedDateDesc(status).map(Book::toBookResponse)
 
     override fun findAllByOption(option: String, pageable: Pageable): Page<BookResponse> =
-        this.bookDao.findAllByOptionIgnoreCase(option, pageable)
+        this.bookDao.findAllByOptionIgnoreCaseOrderByAddedDateDesc(option, pageable)
 
     override fun findAllByCondition(condition: String, pageable: Pageable): Page<BookResponse> =
-        this.bookDao.findAllByConditionIgnoreCase(condition, pageable)
+        this.bookDao.findAllByConditionIgnoreCaseOrderByAddedDateDesc(condition, pageable)
 
     override fun findAllByOwnerIdAndStatus(ownerId: Long, status: String) =
-        this.bookDao.findAllByOwnerIdAndStatusIgnoreCase(ownerId, status)
+        this.bookDao.findAllByOwnerIdAndStatusIgnoreCaseOrderByAddedDateDesc(ownerId, status)
 
 
     override fun updateBook(updateBookRequest: UpdateBookRequest): BookResponse {
